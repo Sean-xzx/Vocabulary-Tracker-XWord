@@ -14,7 +14,7 @@ This is a personal software project for English reading and vocabulary practice,
 
 ## Contribution
 
-The project implements an integrated desktop product:
+My implementation work connects an Electron, React and TypeScript desktop product:
 
 - EPUB/TXT reading and selectable-text PDF support, with navigation, highlights and notes.
 - Offline lookup, selectable meanings, collection with original sentences and jumps back to the book.
@@ -27,7 +27,7 @@ the project does not claim a new learning algorithm or measured improvement in m
 
 ## Methods
 
-- **Stable text anchors:** positions and annotations use text locations instead of layout-dependent page numbers.
+- **Stable reading positions:** EPUB/TXT use text anchors; PDF annotations use normalized page coordinates to survive zoom.
 - **Rules separated from storage:** pure scheduling functions compute outcomes; the main process validates and persists them.
 - **Two review queues:** daily work derives from saved data; session retries do not overwrite the formal review result.
 - **Bounded document handling:** imported content becomes controlled structures; networking and file access stay in the main process.

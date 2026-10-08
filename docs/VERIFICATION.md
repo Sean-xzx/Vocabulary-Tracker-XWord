@@ -35,6 +35,16 @@ the pre-edit backup; fresh packaging is checked separately by Windows CI.
 
 ## Evidence and reproduction / 证据与复现
 
+An independent checkout from the published GitHub `main` was installed with `npm ci`.
+Repository/resource checks, type checks, 213 unit tests, lint and all 72 window cases passed again.
+The README's actual `npm run dev` example was also exercised in that checkout with isolated data:
+import `demo.txt`, collect `ability` with one source, grade the first review `3`, jump to the original
+sentence, then restart and confirm that the word and grade remain saved.
+
+从已发布的 GitHub main 重新获取独立副本并安装锁定依赖；仓库资源、类型、213 项单元测试、
+规范检查及 72 项窗口场景再次通过。另实际启动开发模式，按 README 导入 demo.txt、
+收录 ability 与一条出处、首次评分 3、跳回原句，重启后确认单词和评分保留。
+
 Run the commands in [DEVELOPMENT](DEVELOPMENT.md) from a clean checkout after `npm ci`.
 Unit tests print their totals. E2E prints `通过 72 项，失败 0 项`; screenshots and performance output
 are written under ignored `.test-tmp/`. The [workflow](../.github/workflows/ci.yml) repeats the checks
@@ -89,10 +99,15 @@ The first Windows runner passed installation, resources, type checks, unit tests
 6 window cases failed under its smaller desktop/system animation preferences. The E2E driver
 now uses a 1200×800 baseline viewport and explicit normal-motion preference; screenshot overrides
 restore that baseline, while the reduced-motion scenario still explicitly tests reduced motion.
-No assertion is removed or relaxed. See Actions for the subsequent result.
+No assertion is removed or relaxed. The [subsequent run](https://github.com/Sean-xzx/Vocabulary-Tracker-XWord/actions/runs/37748875455)
+passed all 72 window cases and generated the NSIS installer, but failed when electron-builder's
+implicit CI publishing requested a release token. The workflow now explicitly passes `--publish never`;
+it verifies packaging without publishing a Release or requiring write credentials.
 
 首轮 CI 的 6 项窗口失败暴露了桌面尺寸和动画偏好假设。测试驱动现固定视口与默认动画偏好；
-仍保留减少动态效果场景，未删除或放宽断言。后续结果以 Actions 为准。
+仍保留减少动态效果场景，未删除或放宽断言。上述后续运行的 72 项全部通过，NSIS 安装包已生成，
+但构建工具在 CI 下自动尝试发布 Release，因为没有发布凭据而退出失败。
+工作流现明确传入 `--publish never`，只验证打包，不发布 Release，也不提供写入凭据。
 
 ## Publication integrity / 发布完整性
 

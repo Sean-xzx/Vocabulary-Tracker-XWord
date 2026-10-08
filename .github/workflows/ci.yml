@@ -41,4 +41,4 @@ jobs:
       - name: Real-window core flows with isolated data and mock services
         run: npm run e2e
       - name: Build Windows installer
-        run: npm run build
+        run: npm run build -- --publish never
