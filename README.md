@@ -27,7 +27,7 @@ the project does not claim a new learning algorithm or measured improvement in m
 
 ## Methods
 
-- **Stable reading positions:** EPUB/TXT use text anchors; PDF annotations use normalized page coordinates to survive zoom.
+- **Stable reading positions:** EPUB/TXT use text anchors; PDF annotations use page/text offsets and redraw from the text layer after zoom.
 - **Rules separated from storage:** pure scheduling functions compute outcomes; the main process validates and persists them.
 - **Two review queues:** daily work derives from saved data; session retries do not overwrite the formal review result.
 - **Bounded document handling:** imported content becomes controlled structures; networking and file access stay in the main process.

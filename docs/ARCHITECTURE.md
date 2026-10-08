@@ -53,7 +53,7 @@ PDF uses pdf.js canvas and selectable text. Layout-dependent page numbers are te
 positions, sources and highlights use chapter/block/text offsets (PDF page/text offsets).
 
 书籍导入在主进程和界面协作完成。EPUB/TXT 使用受控结构渲染，PDF 使用画布与文字层。
-位置保存正文锚点，不依赖当前字号下的页码。
+EPUB/TXT 保存正文锚点，不依赖当前字号下的页码；PDF 保存页码与页内文字偏移，缩放后从文字层重绘注释。
 
 AI: selection → main request with encrypted key → allowlisted HTTPS → request-specific stream events
 → result cache. Tests use a local mock; real DeepSeek access is optional and may cost money.
