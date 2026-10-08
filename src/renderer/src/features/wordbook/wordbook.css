@@ -1,0 +1,562 @@
+/* 单词页：表格直接画在纸面上 */
+.wordbook {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.wordbook-body {
+  flex: 1;
+  margin: var(--sp-6) var(--page-pad-x) 0;
+}
+
+/* 图例：今天到期 / 拖欠 / 模糊 */
+.wordbook-legend {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 14px var(--page-pad-x) 18px;
+  background: var(--paper);
+  color: var(--faint);
+  font-size: var(--fs-xs);
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-swatch {
+  width: 14px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.legend-swatch.is-due {
+  background: var(--tint-due);
+}
+
+.legend-swatch.is-late {
+  background: var(--tint-late);
+}
+
+.legend-item .mark {
+  color: var(--faint);
+}
+
+.legend-hint {
+  margin-left: auto;
+}
+
+/* ---------------- 跳页 ---------------- */
+.page-jump-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 240px;
+  max-height: 320px;
+  overflow: auto;
+}
+
+.page-jump-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  height: var(--control-h);
+  padding: 0 var(--sp-3);
+  border: 0;
+  border-radius: var(--r-sm);
+  background: transparent;
+  font-size: var(--fs-sm);
+  text-align: left;
+  transition: background-color var(--dur-micro) var(--ease-in);
+}
+
+.page-jump-item:hover {
+  background: var(--hover);
+}
+
+.page-jump-item:active {
+  background: var(--pressed);
+}
+
+.page-jump-item.is-current {
+  background: var(--tint-select);
+}
+
+/* ---------------- 网格：行高 46，行间 --hair；词义与复习栏之间一条 1.5px 竖线 ---------------- */
+.word-grid {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+
+.word-grid .col-num {
+  width: 48px;
+}
+.word-grid .col-word {
+  width: 220px;
+}
+.word-grid .col-stage {
+  width: var(--stage-w);
+}
+.word-grid .col-actions {
+  width: 72px;
+}
+
+.word-grid th {
+  height: 44px;
+  padding: 0 var(--sp-2) var(--sp-2);
+  box-shadow: inset 0 calc(var(--hairline) * -1) 0 var(--border);
+  color: var(--ink-2);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-regular);
+  text-align: left;
+  vertical-align: bottom;
+  white-space: nowrap;
+}
+
+.word-grid .th-num {
+  text-align: center;
+}
+
+.word-grid .th-stage {
+  padding: 0 0 var(--sp-2);
+  line-height: 1.35;
+  text-align: center;
+}
+
+.stage-label {
+  display: block;
+}
+
+.stage-date {
+  display: block;
+  color: var(--faint);
+}
+
+.th-stage.is-today .stage-label,
+.th-stage.is-today .stage-date {
+  color: var(--accent);
+}
+
+.th-stage.is-today .stage-label {
+  font-weight: var(--fw-semibold);
+}
+
+.word-grid td {
+  height: var(--row-h);
+  padding: 0 var(--sp-2);
+  box-shadow: inset 0 calc(var(--hairline) * -1) 0 var(--hair);
+  vertical-align: middle;
+}
+
+.cell-num {
+  color: var(--faint);
+  font-size: 12.5px;
+  text-align: center;
+}
+
+.cell-word,
+.cell-meaning {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.word-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: var(--fs-word);
+  letter-spacing: -0.005em;
+}
+
+.star-badge {
+  color: var(--marker);
+  fill: var(--marker);
+}
+
+.meaning-text {
+  color: var(--ink-2);
+  font-size: var(--fs-base);
+}
+
+.meaning-text .pos {
+  color: inherit;
+}
+
+/* 键盘焦点：格子内的聚焦环 */
+.word-grid td[role='gridcell']:focus-visible {
+  outline: var(--focus-width) solid var(--focus-ring);
+  outline-offset: -2px;
+  border-radius: var(--r-xs);
+}
+
+.cell-input {
+  width: 100%;
+  height: 32px;
+  padding: 0 var(--sp-2);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--r-xs);
+  background: var(--raised);
+  outline: none;
+}
+
+.cell-word .cell-input {
+  font-family: var(--font-serif);
+  font-size: var(--fs-word);
+}
+
+.cell-input:focus {
+  border-color: var(--accent);
+}
+
+/* ---------------- 复习栏 ---------------- */
+.cell-stage {
+  position: relative;
+  padding: 0 !important;
+  text-align: center;
+  font-size: var(--fs-xs);
+  transition: background-color var(--dur-micro) var(--ease-in);
+}
+
+.grid-row .cell-stage.is-first {
+  box-shadow:
+    inset var(--rule-width) 0 0 color-mix(in srgb, var(--rule-strong) 70%, transparent),
+    inset 0 calc(var(--hairline) * -1) 0 var(--hair);
+}
+
+.cell-stage.is-due {
+  background: var(--tint-due);
+}
+
+.cell-stage.is-overdue {
+  background: var(--tint-late);
+}
+
+.cell-stage.is-gradable:hover {
+  background: color-mix(in srgb, var(--marker) 34%, transparent);
+}
+
+.cell-stage.is-overdue:hover {
+  background: color-mix(in srgb, var(--marker) 52%, transparent);
+}
+
+.overdue-dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 5px;
+  height: 5px;
+  border-radius: var(--r-full);
+  background: var(--accent);
+}
+
+.cell-missed,
+.cell-pending {
+  color: var(--ink-2);
+  font-size: var(--fs-xs);
+}
+
+.cell-next {
+  color: var(--faint);
+}
+
+.mark {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.mark.is-ok {
+  color: var(--ink);
+}
+
+.mark.is-faint {
+  color: var(--faint);
+}
+
+.mark.is-fail {
+  color: var(--danger);
+}
+
+/* 网格评分：勾写出 200（叉两笔各 100），随后到期高亮淡出 120；“漏”淡入 120 */
+.mark.is-sweep .mark-stroke {
+  stroke-dasharray: 1;
+  animation: xw-draw var(--dur-sweep) var(--ease-stroke) both;
+}
+
+.mark.is-sweep .mark-stroke-1 {
+  animation-duration: var(--dur-stroke);
+}
+
+.mark.is-sweep .mark-stroke-2 {
+  animation-duration: var(--dur-stroke);
+  animation-delay: var(--dur-stroke);
+}
+
+.cell-stage.is-just-graded::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--tint-due);
+  pointer-events: none;
+  animation: fade-out var(--dur-micro) var(--ease-out) var(--dur-sweep) both;
+}
+
+.grid-row.is-just-graded .cell-missed {
+  animation: fade-in var(--dur-micro) var(--ease-in);
+}
+
+/* ---------------- 行操作：悬停或聚焦时出现 ---------------- */
+.cell-actions {
+  padding: 0 var(--sp-1) !important;
+}
+
+.row-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity var(--dur-micro) var(--ease-in);
+}
+
+.grid-row:hover .row-actions,
+.grid-row:focus-within .row-actions {
+  opacity: 1;
+}
+
+.star-toggle.is-active .lucide {
+  color: var(--marker);
+  fill: var(--marker);
+}
+
+/* 录入新词：新的一行先被荧光笔划出 200，再用 600 淡去 */
+.grid-row.is-new-row .cell-word {
+  position: relative;
+  isolation: isolate;
+}
+
+.grid-row.is-new-row .cell-word::before {
+  content: '';
+  position: absolute;
+  inset: 8px -4px 8px 0;
+  z-index: -1;
+  border-radius: 2px;
+  background: var(--tint-select);
+  transform-origin: left center;
+  animation:
+    xw-sweep var(--dur-sweep) var(--ease-stroke) both,
+    fade-out var(--dur-flash) var(--ease-out) var(--dur-sweep) both;
+}
+
+/* ---------------- 输入行：raised 底 ---------------- */
+.entry-row td {
+  height: 50px;
+  background: var(--raised);
+  box-shadow: inset 0 calc(var(--hairline) * -1) 0 var(--border);
+}
+
+.entry-num {
+  color: var(--faint);
+}
+
+.entry-input {
+  width: 100%;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: var(--fs-base);
+  outline: none;
+}
+
+.entry-word {
+  font-family: var(--font-serif);
+  font-size: var(--fs-word);
+}
+
+.entry-input::placeholder {
+  color: var(--faint);
+}
+
+.entry-hint-row td {
+  height: 30px;
+  box-shadow: none;
+}
+
+.entry-hint {
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+  animation: fade-in var(--dur-micro) var(--ease-in);
+}
+
+.entry-hint-confirm {
+  color: var(--accent);
+}
+
+/* ---------------- 评分浮层 ---------------- */
+.grade-picker {
+  display: flex;
+  gap: 2px;
+}
+
+.grade-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  height: var(--control-h);
+  padding: 0 var(--sp-3);
+  border: 0;
+  border-radius: var(--r-sm);
+  background: transparent;
+  font-size: var(--fs-sm);
+  transition: background-color var(--dur-micro) var(--ease-in);
+}
+
+.grade-chip:hover {
+  background: var(--hover);
+}
+
+.grade-chip:active {
+  background: var(--pressed);
+}
+
+/* ---------------- 批量录入 ---------------- */
+.batch {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.batch-label {
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+}
+
+.batch-input {
+  width: 100%;
+  min-height: 160px;
+  padding: var(--sp-3);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--raised);
+  line-height: var(--lh-ui);
+  resize: vertical;
+  outline: none;
+  tab-size: 12;
+}
+
+.batch-input:focus {
+  border-color: var(--accent);
+}
+
+.batch-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--fs-sm);
+}
+
+.batch-check {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  color: var(--ink-2);
+}
+
+.batch-check input {
+  accent-color: var(--accent);
+}
+
+.batch-preview {
+  max-height: 240px;
+  overflow: auto;
+  border-radius: var(--r-md);
+  background: var(--raised);
+  box-shadow: var(--shadow-1);
+}
+
+.batch-preview table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+}
+
+.batch-preview th {
+  position: sticky;
+  top: 0;
+  padding: var(--sp-1) var(--sp-3);
+  background: var(--raised);
+  box-shadow: inset 0 calc(var(--hairline) * -1) 0 var(--border);
+  color: var(--ink-2);
+  font-weight: var(--fw-regular);
+  text-align: left;
+}
+
+.batch-preview td {
+  padding: var(--sp-1) var(--sp-3);
+  border-top: var(--hairline) solid var(--hair);
+}
+
+.batch-preview td.serif {
+  font-size: var(--fs-body);
+}
+
+.batch-meaning-input {
+  width: 100%;
+  height: 26px;
+  padding: 0 var(--sp-1);
+  border: var(--hairline) solid transparent;
+  border-radius: var(--r-xs);
+  background: var(--tint-due);
+  outline: none;
+}
+
+.batch-meaning-input:hover {
+  border-color: var(--border);
+}
+
+.batch-meaning-input:focus {
+  border-color: var(--accent);
+  background: var(--overlay);
+}
+
+.batch-preview tr.is-skipped td {
+  color: var(--faint);
+}
+
+.batch-error {
+  color: var(--danger);
+  font-size: var(--fs-sm);
+}
+
+.batch-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--sp-2);
+  padding-top: var(--sp-2);
+}
+.word-with-audio {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  min-width: 0;
+}
+
+.word-with-audio > .word-text,
+.word-with-audio > input {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

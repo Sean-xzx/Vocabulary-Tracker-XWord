@@ -1,0 +1,526 @@
+/* ---------------- 概览：三组衬线大数字 + 右侧预计用时与主按钮 + raised 的复习顺序列表 ---------------- */
+.overview {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding-bottom: var(--sp-8);
+}
+
+.overview-top {
+  display: flex;
+  align-items: flex-end;
+  gap: 56px;
+  margin: 40px var(--page-pad-x) 0;
+}
+
+.overview-stats {
+  display: flex;
+  align-items: flex-end;
+  gap: 56px;
+  margin: 0;
+}
+
+.overview-stats > div {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 6px;
+}
+
+.overview-stats dt {
+  color: var(--ink-2);
+  font-size: 13.5px;
+}
+
+.overview-stats dd {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-stat);
+  font-weight: var(--fw-medium);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.stat-sep {
+  align-self: center;
+  width: var(--hairline);
+  height: 64px;
+  background: var(--hair);
+}
+
+.overview-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--sp-3);
+  margin-left: auto;
+}
+
+.overview-estimate {
+  color: var(--ink-2);
+  font-size: 13.5px;
+}
+
+.overview-note {
+  margin: var(--sp-4) var(--page-pad-x) 0;
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+}
+
+.queue-card {
+  margin: 36px var(--page-pad-x) 0;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  background: var(--raised);
+  box-shadow: var(--shadow-1);
+}
+
+.queue-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 44px;
+  padding: 0 20px;
+  box-shadow: inset 0 calc(var(--hairline) * -1) 0 var(--hair);
+  color: var(--ink-2);
+  font-size: 12.5px;
+}
+
+.queue-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.queue-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  height: 48px;
+  padding: 0 20px;
+  box-shadow: inset 0 calc(var(--hairline) * -1) 0 var(--hair);
+}
+
+.queue-item:last-child {
+  box-shadow: none;
+}
+
+/* 最后几行逐渐变淡 */
+.queue-item.is-tail-2 {
+  opacity: 0.72;
+}
+
+.queue-item.is-tail-1 {
+  opacity: 0.42;
+}
+
+.queue-index {
+  width: 22px;
+  color: var(--faint);
+  font-size: 12.5px;
+}
+
+.queue-word {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: 200px;
+  overflow: hidden;
+  font-family: var(--font-serif);
+  font-size: var(--fs-word);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.queue-meta {
+  margin-left: auto;
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+}
+
+.queue-skip {
+  display: inline-flex;
+  align-items: center;
+}
+
+.queue-skip input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+.queue-item.is-skipped .queue-word,
+.queue-item.is-skipped .queue-meta {
+  color: var(--faint);
+  text-decoration: line-through;
+}
+
+/* ---------------- 复习中：整个窗口是桌面，中央一张 raised 卡片 ---------------- */
+.session {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.session-top {
+  position: absolute;
+  top: 22px;
+  left: 28px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+}
+
+.session-stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  min-height: 0;
+  padding: var(--sp-11) var(--sp-8) var(--sp-8);
+  overflow: auto;
+}
+
+.card-slot {
+  position: relative;
+  width: min(640px, 100%);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: 400px;
+  padding: 26px 40px 34px;
+  border-radius: var(--r-card);
+  background: var(--raised);
+  box-shadow: var(--shadow-2);
+}
+
+/* 换卡时留下的旧卡：绝对定位在原处，左移 8px 淡出 */
+.card.is-ghost {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  color: var(--ink-2);
+  font-size: 12.5px;
+}
+
+.card-meta .star-badge {
+  color: var(--marker);
+  fill: var(--marker);
+}
+
+.card-retry {
+  position: relative;
+  isolation: isolate;
+  padding: 0 6px;
+  color: var(--ink);
+  font-weight: var(--fw-semibold);
+}
+
+/* “再来一次”提示用荧光笔划出 */
+.card-retry::before {
+  content: '';
+  position: absolute;
+  inset: 1px 0;
+  z-index: -1;
+  border-radius: 2px;
+  background: var(--tint-select);
+  transform-origin: left center;
+  animation: xw-sweep var(--dur-sweep) var(--ease-stroke) both;
+}
+
+.card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding-top: var(--sp-6);
+  text-align: center;
+}
+
+.card-front {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-word {
+  font-family: var(--font-serif);
+  font-size: var(--fs-display);
+  font-weight: var(--fw-semibold);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  user-select: text;
+  overflow-wrap: anywhere;
+}
+
+.card-word.is-answer {
+  font-size: 44px;
+}
+
+.card-back {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 22px;
+  text-align: center;
+}
+
+.card-phonetic {
+  margin-top: 14px;
+  color: var(--ink-2);
+  font-size: var(--fs-body);
+  user-select: text;
+}
+
+.card-meaning {
+  font-size: var(--fs-xl);
+  line-height: var(--lh-ui);
+  user-select: text;
+}
+
+.card-meaning.is-large {
+  font-size: 30px;
+  line-height: 1.35;
+}
+
+.card-example {
+  max-width: 100%;
+  color: var(--ink-2);
+  font-family: var(--font-serif);
+  font-size: var(--fs-body);
+  font-style: italic;
+  line-height: var(--lh-body);
+  user-select: text;
+}
+
+.card-mnemonic {
+  max-width: 100%;
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-body);
+  user-select: text;
+}
+
+.card-mnemonic::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 2px;
+  margin-right: var(--sp-2);
+  vertical-align: middle;
+  background: var(--marker);
+}
+
+.card-hint {
+  margin-top: var(--sp-8);
+  color: var(--faint);
+  font-size: var(--fs-sm);
+}
+
+/* 翻面：词义、音标、例句依次上浮 4px 淡入 180，间隔 40 */
+.reveal {
+  animation: rise-in var(--dur-base) var(--ease-in) both;
+}
+
+/* 评分按钮 138×52：raised + --shadow-1；选中用 --tint-select（荧光笔划过 120） */
+.grade-bar {
+  display: flex;
+  gap: var(--sp-3);
+}
+
+.grade-bar.is-hidden,
+.grade-tip.is-hidden {
+  visibility: hidden;
+}
+
+.grade-btn {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 138px;
+  height: 52px;
+  border: 0;
+  border-radius: var(--r-button-lg);
+  background: var(--raised);
+  box-shadow: var(--shadow-1);
+  font-size: var(--fs-body);
+  transition: background-color var(--dur-micro) var(--ease-in);
+}
+
+.grade-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--tint-select);
+  opacity: 0;
+  transform-origin: left center;
+}
+
+.grade-btn:hover {
+  background: color-mix(in srgb, var(--raised) 100%, var(--ink) 4%);
+}
+
+.grade-btn:active {
+  background: color-mix(in srgb, var(--raised) 100%, var(--ink) 9%);
+}
+
+.grade-btn.is-selected {
+  background: transparent;
+  box-shadow: none;
+  font-weight: var(--fw-semibold);
+}
+
+.grade-btn.is-selected::before {
+  opacity: 1;
+  animation: xw-sweep var(--dur-micro) var(--ease-stroke);
+}
+
+.grade-btn:disabled {
+  pointer-events: none;
+}
+
+.grade-tip {
+  margin-top: calc(var(--sp-4) * -1);
+  color: var(--faint);
+  font-size: var(--fs-xs);
+}
+
+/* ---------------- 底部状态栏 56px：纸面底 + 顶部 hair 线 ---------------- */
+.statusbar {
+  display: flex;
+  flex: 0 0 var(--statusbar-h);
+  align-items: center;
+  gap: 20px;
+  padding: 0 28px;
+  background: var(--paper);
+  box-shadow: inset 0 var(--hairline) 0 var(--hair);
+}
+
+/* 荧光笔进度条：--marker 色，末端斜切；宽度变化只用 scaleX（240，不回弹） */
+.progress {
+  position: relative;
+  width: 360px;
+  height: 6px;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--hair);
+}
+
+.progress-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--marker);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 5px) 100%, 0 100%);
+  transform-origin: left center;
+  transition: transform var(--dur-panel) var(--ease-in);
+}
+
+.progress-count {
+  font-family: var(--font-serif);
+  font-size: var(--fs-body);
+  font-variant-numeric: tabular-nums;
+}
+
+.progress-total {
+  color: var(--faint);
+}
+
+.statusbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-left: auto;
+}
+
+/* ---------------- 完成页：只写出 Logo 的那一笔勾；数字依次上浮淡入 ---------------- */
+.done {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-6);
+  height: 100%;
+  padding: var(--sp-8);
+}
+
+.done h1 {
+  font-size: var(--fs-title);
+}
+
+.done-stats {
+  display: flex;
+  align-items: flex-end;
+  gap: 56px;
+  margin: var(--sp-2) 0 var(--sp-4);
+}
+
+.done-stats > div {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 6px;
+  animation: rise-in var(--dur-base) var(--ease-in) both;
+}
+
+.done-stats > div:nth-child(3) {
+  animation-delay: var(--stagger);
+}
+
+.done-stats > div:nth-child(5) {
+  animation-delay: calc(var(--stagger) * 2);
+}
+
+.done-stats dt {
+  color: var(--ink-2);
+  font-size: 13.5px;
+}
+
+.done-stats dd {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-stat);
+  font-weight: var(--fw-medium);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.review-audio-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-4);
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+}
+
+.session-top .review-audio-toggle {
+  margin: 0 0 0 auto;
+}
+
+.card-meta > .tooltip-anchor {
+  margin-left: auto;
+}

@@ -1,0 +1,140 @@
+.xmark {
+  display: block;
+  flex: 0 0 auto;
+  overflow: visible;
+}
+
+.xmark-body {
+  fill: var(--paper);
+  stroke: var(--ink);
+}
+
+.xmark-ring {
+  fill: var(--ink);
+}
+
+.xmark-rule {
+  stroke: var(--rule-strong);
+}
+
+.xmark-marker {
+  fill: var(--marker);
+}
+
+.xmark-word {
+  stroke: var(--mark-word);
+  stroke-linecap: round;
+}
+
+.xmark-check {
+  fill: none;
+  stroke: var(--ink);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* 单色版：荧光笔与竖线用墨色，单词墨线用纸色 */
+.xmark.is-mono .xmark-rule {
+  stroke: var(--ink);
+}
+
+.xmark.is-mono .xmark-marker {
+  fill: var(--ink);
+}
+
+.xmark.is-mono .xmark-word {
+  stroke: var(--paper);
+}
+
+/* ---------------- 品牌三笔 ----------------
+ * 划：荧光笔 scaleX，原点在左；写：单词墨线 scaleX；勾：stroke-dashoffset（pathLength = 1）。
+ * 开屏：本子淡入 120 → 划 200 → 写 150 → 勾 200（之后由开屏淡出 130，总长约 800ms）。 */
+.xmark-marker,
+.xmark-word {
+  transform-box: fill-box;
+  transform-origin: left center;
+}
+
+.xmark.is-anim-splash .xmark-book {
+  animation: xw-fade var(--dur-micro) var(--ease-in) both;
+}
+
+.xmark.is-anim-splash .xmark-marker {
+  animation: xw-sweep var(--dur-sweep) var(--ease-stroke) var(--dur-micro) both;
+}
+
+.xmark.is-anim-splash .xmark-word {
+  animation: xw-sweep var(--dur-write) var(--ease-stroke) calc(var(--dur-micro) + var(--dur-sweep))
+    both;
+}
+
+.xmark.is-anim-splash .xmark-check {
+  stroke-dasharray: 1;
+  animation: xw-draw var(--dur-sweep) var(--ease-stroke)
+    calc(var(--dur-micro) + var(--dur-sweep) + var(--dur-write)) both;
+}
+
+/* 完成页：只写出那一笔勾 */
+.xmark.is-anim-check .xmark-check {
+  stroke-dasharray: 1;
+  animation: xw-draw var(--dur-check) var(--ease-stroke) both;
+}
+
+@keyframes xw-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* 减少动态效果：划、写、勾直接显示最终状态 */
+@media (prefers-reduced-motion: reduce) {
+  .xmark[class*='is-anim-'] * {
+    animation: none !important;
+  }
+}
+
+.wordmark {
+  font-family: var(--font-serif);
+  font-weight: var(--fw-semibold);
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+/* ---------------- 冷启动开屏 ---------------- */
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-splash);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-6);
+  background: var(--desk);
+}
+
+.splash.is-leaving {
+  animation: fade-out var(--dur-splash-out) var(--ease-out) both;
+  pointer-events: none;
+}
+
+.splash-mark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.splash-wordmark {
+  font-size: var(--fs-title);
+  animation: fade-in var(--dur-micro) var(--ease-in) both;
+}
+
+.splash-note {
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+  animation: fade-in var(--dur-base) var(--ease-in) both;
+}

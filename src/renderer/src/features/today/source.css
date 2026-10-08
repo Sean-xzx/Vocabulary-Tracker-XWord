@@ -1,0 +1,45 @@
+/* 复习卡片背面的出处：句子里的目标词用荧光笔底色标出，下方一行小字“《书名》第 N 章” */
+.card-source {
+  max-width: 520px;
+  margin-top: var(--sp-4);
+}
+
+.card-source-sentence {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: var(--fs-body);
+  line-height: var(--lh-ui);
+}
+
+.card-source-word {
+  padding: 0 2px;
+  border-radius: 2px;
+  background: var(--tint-select);
+  color: inherit;
+}
+
+.card-source-link {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 2px 6px;
+  border: 0;
+  border-radius: var(--r-xs);
+  background: transparent;
+  color: var(--ink-2);
+  font-size: var(--fs-xs);
+  transition: background-color var(--dur-micro) var(--ease-in);
+}
+
+button.card-source-link:hover {
+  background: var(--hover);
+  color: var(--ink);
+}
+
+button.card-source-link:active {
+  background: var(--pressed);
+}
+
+.card-source-link.is-gone {
+  color: var(--faint);
+}

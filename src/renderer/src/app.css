@@ -1,0 +1,235 @@
+/* 应用外壳：桌面（窗口底色）上放侧栏，右侧是一张纸（主内容区） */
+.app {
+  display: flex;
+  height: 100%;
+  background: var(--desk);
+}
+
+/* ---------------- 侧栏：232px，直接放在桌面上 ---------------- */
+.sidebar {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 var(--nav-width);
+  width: var(--nav-width);
+  padding: 22px 14px 18px;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 36px;
+  padding: 0 10px;
+}
+
+.sidebar-wordmark {
+  font-size: var(--fs-wordmark);
+}
+
+.nav-list {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* 两组并列：「阅读」「单词」，分组标题 12px 次要色 */
+.nav-group {
+  margin-top: 20px;
+}
+
+.nav-group .nav-list {
+  margin-top: 0;
+}
+
+.nav-group-title {
+  padding: 0 var(--sp-3) 6px;
+  color: var(--ink-2);
+  font-size: var(--fs-xs);
+}
+
+.sidebar-foot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  margin-top: auto;
+}
+
+.sidebar-foot .nav-list {
+  margin-top: 0;
+}
+
+/* 选中底色：浅色用纸面、深色用 raised，外加 --shadow-1；切换时用 transform 滑到新位置 */
+.nav-indicator {
+  position: absolute;
+  top: 0;
+  left: 14px;
+  right: 14px;
+  border-radius: var(--r-md);
+  background: var(--paper);
+  box-shadow: var(--shadow-1);
+  pointer-events: none;
+  transition: transform var(--dur-base) var(--ease-in);
+}
+
+.nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  width: 100%;
+  height: var(--nav-item-h);
+  padding: 0 var(--sp-3);
+  border: 0;
+  border-radius: var(--r-md);
+  background: transparent;
+  color: var(--ink);
+  font-size: var(--fs-base);
+  text-align: left;
+  transition: background-color var(--dur-micro) var(--ease-in);
+}
+
+.nav-item .lucide {
+  color: var(--ink-2);
+}
+
+.nav-item:not(.is-current):hover {
+  background: var(--hover);
+}
+
+.nav-item:not(.is-current):active {
+  background: var(--pressed);
+}
+
+.nav-item.is-current {
+  font-weight: var(--fw-semibold);
+}
+
+.nav-item.is-current .lucide {
+  color: var(--ink);
+}
+
+.nav-label {
+  flex: 1;
+}
+
+.nav-count {
+  padding: 0 var(--sp-2);
+  border-radius: var(--r-full);
+  background: var(--tint-select);
+  color: var(--ink);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-regular);
+  line-height: 20px;
+}
+
+.nav-count.is-zero {
+  background: transparent;
+  color: var(--faint);
+}
+
+/* 连续打卡小卡片 */
+.streak-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: var(--sp-3);
+  border-radius: var(--r-button-lg);
+  box-shadow: inset 0 0 0 var(--hairline) var(--border);
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+}
+
+.streak-icon {
+  color: var(--accent);
+}
+
+.streak-num {
+  margin-left: auto;
+  color: var(--ink);
+  font-size: var(--fs-word);
+  font-weight: var(--fw-semibold);
+}
+
+/* ---------------- 纸面：距窗口上、右、下各 12px，圆角 18，--shadow-1 ---------------- */
+.main {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  margin: var(--sp-3) var(--sp-3) var(--sp-3) 0;
+  overflow: auto;
+  border-radius: var(--r-xl);
+  background: var(--paper);
+  box-shadow: var(--shadow-1);
+}
+
+/* 复习中：侧栏收起，整个窗口是桌面 */
+.app.is-focus .main {
+  margin: 0;
+  border-radius: 0;
+  background: var(--desk);
+  box-shadow: none;
+}
+
+/* 切换页面：内容区自下 4px 上浮淡入 120（页面高度撑满纸面，内容更高时由纸面滚动） */
+.view {
+  height: 100%;
+  animation: rise-in var(--dur-micro) var(--ease-in);
+}
+
+.load-error {
+  padding: var(--sp-8);
+  color: var(--danger);
+}
+
+/* 骨架屏：静态浅色块，不做闪光扫描 */
+.skeleton {
+  margin: var(--sp-11) auto;
+  width: min(var(--reading-width), calc(100% - var(--sp-11) * 2));
+  height: 160px;
+  border-radius: var(--r-lg);
+  background: var(--raised);
+}
+
+@media (prefers-color-scheme: dark) {
+  .nav-indicator {
+    background: var(--raised);
+  }
+}
+
+/* 阅读中：侧栏收起，窗口是桌面，正文在居中的纸面上（见 features/reader/reader.css） */
+.app.is-reading .main {
+  margin: 0;
+  overflow: hidden;
+  border-radius: 0;
+  background: var(--desk);
+  box-shadow: none;
+}
+
+/* 把文件拖进窗口时的提示（浮层） */
+.drop-hint {
+  position: fixed;
+  inset: var(--sp-3);
+  z-index: var(--z-dialog);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: var(--focus-width) dashed var(--marker);
+  border-radius: var(--r-xl);
+  background: color-mix(in srgb, var(--overlay) 86%, transparent);
+  pointer-events: none;
+  animation: fade-in var(--dur-base) var(--ease-in);
+}
+
+.drop-hint span {
+  padding: var(--sp-3) var(--sp-6);
+  border-radius: var(--r-md);
+  background: var(--overlay);
+  box-shadow: var(--shadow-3);
+  color: var(--ink);
+  font-size: var(--fs-body);
+}

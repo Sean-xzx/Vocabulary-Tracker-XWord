@@ -1,0 +1,111 @@
+/* 高亮与笔记：按书分组，条目画在纸面上，行间 --hair */
+.highlights {
+  padding-bottom: var(--sp-8);
+}
+
+.highlights-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-8);
+  margin: var(--sp-6) var(--page-pad-x) 0;
+}
+
+.hl-group-title {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  margin: 0 0 var(--sp-2);
+  font-family: var(--font-serif);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-semibold);
+}
+
+.hl-group-author {
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+  font-style: italic;
+  font-weight: var(--fw-regular);
+}
+
+.hl-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hl-list li + li {
+  border-top: var(--hairline) solid var(--hair);
+}
+
+.hl-item {
+  display: flex;
+  gap: var(--sp-3);
+  width: 100%;
+  padding: var(--sp-3) var(--sp-2);
+  border: 0;
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  transition: background-color var(--dur-micro) var(--ease-in);
+}
+
+.hl-item:hover {
+  background: var(--hover);
+}
+
+.hl-item:active {
+  background: var(--pressed);
+}
+
+.hl-bar {
+  flex: 0 0 4px;
+  border-radius: 2px;
+}
+
+.hl-bar-yellow {
+  background: var(--hl-yellow);
+}
+
+.hl-bar-green {
+  background: var(--hl-green);
+}
+
+.hl-bar-red {
+  background: var(--hl-red);
+}
+
+.hl-bar-blue {
+  background: var(--hl-blue);
+}
+
+.hl-bar-purple {
+  background: var(--hl-purple);
+}
+
+.hl-main {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.hl-text {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  font-family: var(--font-serif);
+  font-size: var(--fs-body);
+  line-height: var(--lh-ui);
+}
+
+.hl-note {
+  color: var(--ink);
+  font-size: var(--fs-base);
+}
+
+.hl-meta {
+  color: var(--faint);
+  font-size: var(--fs-xs);
+}

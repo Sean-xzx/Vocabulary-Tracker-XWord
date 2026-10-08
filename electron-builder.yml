@@ -1,0 +1,98 @@
+appId: com.sean.xword
+productName: XWord
+copyright: Copyright © 2026 XWord
+
+directories:
+  buildResources: build
+  output: release
+
+# 直接用 node_modules 里已经下载好的 Electron（与 package.json 锁定的版本一致），不再重复下载
+electronDist: node_modules/electron/dist
+electronDownload:
+  mirror: https://npmmirror.com/mirrors/electron/
+
+files:
+  - '!**/.vscode/*'
+  - '!src/*'
+  - '!docs/*'
+  - '!scripts/*'
+  - '!assets/*'
+  - '!build/*'
+  - '!release/*'
+  - '!.test-tmp/*'
+  - '!vendor/*'
+  - '!design-assets/*'
+  - '!resources/*'
+  - '!.claude/*'
+  - '!electron.vite.config.{js,ts,mjs,cjs}'
+  - '!vitest.config.ts'
+  - '!{.eslintcache,eslint.config.mjs,.prettierignore,.prettierrc.yaml,.editorconfig,.gitattributes,CHANGELOG.md,README.md,CLAUDE.md}'
+  - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
+  - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
+  # sql.js 只需要 dist/sql-wasm.js 和 dist/sql-wasm.wasm
+  - '!node_modules/sql.js/dist/*sql-asm*'
+  - '!node_modules/sql.js/dist/*debug*'
+  - '!node_modules/sql.js/dist/*browser*'
+  - '!node_modules/sql.js/dist/worker*'
+  - '!node_modules/sql.js/dist/*.zip'
+  - '!node_modules/sql.js/.devcontainer'
+
+# 词典与它的许可证放在安装目录的 resources/dict（asar 之外，只读）；窗口图标放在 resources/icon.ico
+extraResources:
+  - from: resources/dict
+    to: dict
+    filter:
+      - ecdict-lite.json.gz
+      - ECDICT-LICENSE.txt
+  - from: build/icon.ico
+    to: icon.ico
+  # pdf.js 的 cMap 与标准字体：主进程经 IPC 读给渲染进程，离线可用（worker 已打包进渲染进程的代码）
+  - from: node_modules/pdfjs-dist/cmaps
+    to: pdfjs/cmaps
+  - from: node_modules/pdfjs-dist/standard_fonts
+    to: pdfjs/standard_fonts
+  - from: node_modules/pdfjs-dist/LICENSE
+    to: pdfjs/LICENSE
+
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  # D1 图标：与 design-assets/icon/app-icon.ico 字节一致（npm run icon 复制）
+  icon: build/icon.ico
+  executableName: XWord
+
+nsis:
+  artifactName: XWord-Setup-${version}.${ext}
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: always
+  createStartMenuShortcut: true
+  shortcutName: XWord
+  # 安装程序、卸载程序和安装界面顶部都用同一个 D1 图标；桌面和开始菜单快捷方式用 exe 内嵌的图标
+  installerIcon: build/icon.ico
+  uninstallerIcon: build/icon.ico
+  installerHeaderIcon: build/icon.ico
+  uninstallDisplayName: XWord
+  # 安装界面只用简体中文（LCID 2052）
+  language: '2052'
+  installerLanguages:
+    - zh_CN
+  multiLanguageInstaller: false
+  # 卸载时保留 %APPDATA%\XWord 里的用户数据
+  deleteAppDataOnUninstall: false
+  # 安装方式固定为“当前用户”（customInstallMode 宏），去掉“仅为我 / 所有用户”那一页
+  include: build/installer.nsh
+
+npmRebuild: false
+
+# Electron fuses：打包后的程序不能被当作 Node 运行、不认 NODE_OPTIONS 和 --inspect，
+# 只从 app.asar 加载代码，并校验 asar 的完整性
+electronFuses:
+  runAsNode: false
+  enableNodeOptionsEnvironmentVariable: false
+  enableNodeCliInspectArguments: false
+  onlyLoadAppFromAsar: true
+  enableEmbeddedAsarIntegrityValidation: true

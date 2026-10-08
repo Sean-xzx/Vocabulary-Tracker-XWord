@@ -1,0 +1,293 @@
+/*
+ * XWord 设计变量 v2——色值、字号、间距、圆角、阴影、动效的唯一来源
+ * （合并自 design-assets/ui/design-tokens.css 与 design-assets/motion/motion-tokens.css）。
+ * 其他任何 CSS / TSX 都不许写十六进制色值；需要新颜色先在这里加变量。
+ * 主题由主进程的 nativeTheme.themeSource 决定，页面只跟随 prefers-color-scheme。
+ *
+ * 四层表面（从低到高，每升一层颜色更亮一点、阴影更重一级）：
+ *   --desk 桌面（窗口底色，侧栏直接放在上面）→ --paper 纸面（主内容区）
+ *   → --raised 抬起（卡片、列表、输入框、选中项、复习卡片）→ --overlay 浮层（Popover、菜单、Dialog）
+ * 1px 线只用在两处：表格的行（--hair）、控件的描边（--border，即设计稿的 --line）。
+ */
+
+:root {
+  color-scheme: light;
+
+  /* ---- 表面 ---- */
+  --desk: #f3ece1;
+  --paper: #faf7f2;
+  --raised: #fffdf9;
+  --overlay: #fffdf9;
+
+  /* ---- 线 ---- */
+  --border: #e2d5c2; /* 控件描边（设计稿 --line） */
+  --hair: #ece4d7; /* 表格行线 */
+  --rule-strong: #c9bca6; /* 单词页复习栏竖线、Logo 的复习栏 */
+
+  /* ---- 文字 ---- */
+  --ink: #2b2622; /* 正文、墨色 */
+  --ink-2: #7a6e63; /* 次要文字（设计稿 --soft） */
+  --faint: #a89c8f; /* 更淡的文字：序号、日期、占位 */
+
+  /* ---- 强调 ---- */
+  --accent: #c9814b; /* 陶土：每屏唯一的主元素 */
+  --on-accent: #fffdf9; /* 陶土底上的文字（设计稿 --accent-ink） */
+  --marker: #d9b23a; /* 荧光笔 */
+  --danger: #b5483b; /* 只用于叉号和错误提示 */
+  --mark-word: var(--ink); /* Logo 的单词墨线：浅色用墨色 */
+
+  /* ---- 半透明（黄色只用于：荧光笔、到期 / 选中的半透明底、难词星标） ---- */
+  --tint-due: rgba(217, 178, 58, 0.24);
+  --tint-late: rgba(217, 178, 58, 0.42);
+  --tint-select: rgba(217, 178, 58, 0.3);
+
+  /* ---- 高亮（沿用 XNote 的语义：黄 重点 / 绿 已懂 / 红 疑问 / 蓝 待查 / 紫 灵感），一律半透明，文字保持清晰 ---- */
+  --hue-green: #6f9f5f;
+  --hue-red: #c8665a;
+  --hue-blue: #5f8fc0;
+  --hue-purple: #9a7cc0;
+  --hl-alpha: 34%;
+  --hl-yellow: color-mix(in srgb, var(--marker) var(--hl-alpha), transparent);
+  --hl-green: color-mix(in srgb, var(--hue-green) var(--hl-alpha), transparent);
+  --hl-red: color-mix(in srgb, var(--hue-red) var(--hl-alpha), transparent);
+  --hl-blue: color-mix(in srgb, var(--hue-blue) var(--hl-alpha), transparent);
+  --hl-purple: color-mix(in srgb, var(--hue-purple) var(--hl-alpha), transparent);
+  /* 正文里单词本的词：淡淡的荧光笔虚线；今天到期的更明显一些 */
+  --meet-line: color-mix(in srgb, var(--marker) 55%, transparent);
+  --meet-line-due: var(--marker);
+
+  /* ---- 阅读器 ---- */
+  --reader-font-size: 19px;
+  --reader-line-height: 1.6;
+  --reader-width: 680px;
+  --reader-bar-h: 48px;
+  --fs-chapter: 28px;
+
+  /* ---- 书页排版（docs/ui-spec.md「书页排版」） ---- */
+  --reader-foot-h: 40px;
+  --page-radius: 4px;
+  --page-outer-gap: 24px;
+  /* 双页中缝阴影：两侧各 16px 渐变，最深处不透明度 0.06 */
+  --spine-w: 16px;
+  --spine-shade: rgba(43, 38, 34, 0.06);
+  --book-indent: 1.5em;
+  --book-list-indent: 1.5em;
+  --book-quote-indent: 2em;
+  --book-quote-scale: 0.95;
+  --chapter-label-size: 12px;
+  --chapter-label-tracking: 0.12em;
+  --chapter-name-size: 32px;
+  --chapter-name-weight: 500;
+  --chapter-name-tracking: 0.01em;
+  --chapter-label-gap: 12px;
+  --chapter-after: 2.4em;
+  --book-h2-size: 22px;
+  --book-h3-size: 18px;
+  --running-head-size: 11px;
+  --folio-size: 12px;
+  --toc-width: 320px;
+  --toc-l1-size: 14.5px;
+  --toc-l2-size: 14px;
+  --toc-l3-size: 13px;
+  --toc-group-size: 12px;
+  --toc-indent: 16px;
+  --popover-title-size: 15px;
+  /* PDF 原版页面：深色主题也保持纸张原色 */
+  --pdf-paper: #ffffff;
+
+  /* ---- 派生（交互态） ---- */
+  --hover: color-mix(in srgb, var(--ink) 5%, transparent);
+  --pressed: color-mix(in srgb, var(--ink) 10%, transparent);
+  --accent-hover: color-mix(in srgb, var(--accent) 90%, var(--ink));
+  --accent-pressed: color-mix(in srgb, var(--accent) 78%, var(--ink));
+  --focus-ring: color-mix(in srgb, var(--accent) 70%, transparent);
+  --scrim: color-mix(in srgb, var(--ink) 22%, transparent);
+
+  /* ---- 阴影（三级） ---- */
+  --shadow-1: 0 1px 2px rgba(43, 38, 34, 0.06), 0 0 0 1px rgba(43, 38, 34, 0.04);
+  --shadow-2:
+    0 10px 28px -14px rgba(43, 38, 34, 0.22), 0 2px 6px rgba(43, 38, 34, 0.05),
+    0 0 0 1px rgba(43, 38, 34, 0.04);
+  --shadow-3:
+    0 18px 44px -18px rgba(43, 38, 34, 0.32), 0 4px 12px rgba(43, 38, 34, 0.08),
+    0 0 0 1px rgba(43, 38, 34, 0.05);
+
+  /* ---- 字体：衬线只用于拉丁文字和数字；中文一律用界面字体 ---- */
+  --font-ui: 'Segoe UI', 'Microsoft YaHei UI', 'Microsoft YaHei', 'PingFang SC', sans-serif;
+  --font-serif: Newsreader, Georgia, 'Times New Roman', 'Microsoft YaHei UI', serif;
+
+  /* ---- 字号 ---- */
+  --fs-2xs: 11px; /* 快捷键提示 kbd */
+  --fs-xs: 12px; /* 标签、表头 */
+  --fs-sm: 13px; /* 小标题 eyebrow、次要说明 */
+  --fs-md: 14px; /* 按钮 */
+  --fs-base: 14.5px; /* 正文、导航、词义 */
+  --fs-body: 15px;
+  --fs-lg: 17px;
+  --fs-word: 18px; /* 网格、列表里的单词 */
+  --fs-xl: 20px;
+  --fs-wordmark: 22px;
+  --fs-title: 26px; /* 页面标题 */
+  --fs-detail: 40px; /* 词库详情的单词 */
+  --fs-display: 60px; /* 复习卡片的单词 */
+  --fs-stat: 60px; /* 统计大数字 */
+
+  /* ---- 字重 ---- */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+
+  /* ---- 行高 ---- */
+  --lh-tight: 1.15;
+  --lh-ui: 1.5;
+  --lh-body: 1.75;
+
+  /* ---- 间距阶梯：4 / 8 / 12 / 16 / 24 / 32 / 44 ---- */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-11: 44px;
+  --page-pad-top: var(--sp-8);
+  --page-pad-x: var(--sp-11);
+
+  /* ---- 圆角阶梯：5 / 9 / 10 / 14 / 18 / 22 ---- */
+  --r-xs: 5px;
+  --r-sm: 9px;
+  --r-md: 10px;
+  --r-lg: 14px;
+  --r-xl: 18px;
+  --r-card: 22px;
+  --r-button-lg: 12px; /* 页面级主操作按钮、评分按钮 */
+  --r-full: 999px;
+
+  /* ---- 线宽与尺寸 ---- */
+  --hairline: 1px;
+  --rule-width: 1.5px;
+  --focus-width: 2px;
+  --icon-stroke: 1.75;
+  --nav-width: 232px;
+  --control-h: 36px;
+  --control-h-sm: 30px;
+  --control-h-lg: 48px;
+  --nav-item-h: 38px;
+  --row-h: 46px; /* 单词页表格行 */
+  --list-row-h: 56px; /* 词库列表行 */
+  --stage-w: 64px; /* 复习栏每列 */
+  --statusbar-h: 56px;
+  --reading-width: 760px;
+
+  /* ---- 动效（motion-tokens.css）：时长和缓动只能用这些变量 ---- */
+  --dur-micro: 120ms; /* 悬停、按下、切换；淡出 */
+  --dur-base: 180ms; /* 小弹层、淡入 */
+  --dur-panel: 240ms; /* 面板进入、Dialog、进度条 */
+  --dur-panel-out: 170ms; /* 面板收起 */
+  --dur-sweep: 200ms; /* 划、勾 */
+  --dur-flash: 600ms; /* 荧光笔划出后淡去 */
+  --stagger: 40ms; /* 依次出现的间隔 */
+  --dur-brand-max: 800ms; /* 品牌动画总长上限 */
+  --dur-write: 150ms; /* 写：开屏的单词墨线 */
+  --dur-stroke: 100ms; /* 叉的每一笔 */
+  --dur-check: 300ms; /* 完成页的勾 */
+  --dur-splash-out: 130ms; /* 开屏淡出、主界面淡入 */
+  --dur-ai-wait: 1100ms; /* AI 等待的荧光笔循环（全软件唯一的循环动效，第一个字出现就停） */
+  --ease-in: cubic-bezier(0.2, 0, 0, 1); /* 进入 */
+  --ease-out: cubic-bezier(0.4, 0, 1, 1); /* 退出 */
+  --ease-stroke: cubic-bezier(0.65, 0, 0.35, 1); /* 划、写、勾 */
+  /* 位移量：减少动态效果时归零 */
+  --move-sm: 4px;
+  --move-md: 8px;
+
+  /* ---- 层级 ---- */
+  --z-splash: 80;
+  --z-popover: 40;
+  --z-dialog: 50;
+  --z-toast: 60;
+  --z-tooltip: 70;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    --desk: #171513;
+    --paper: #1e1b18;
+    --raised: #27231f;
+    --overlay: #2f2a25;
+    --border: #3a342e;
+    --hair: #2c2824;
+    --rule-strong: #5e554c;
+    --ink: #ece5da;
+    --ink-2: #a2968a;
+    --faint: #756b61;
+    --accent: #d9955f;
+    --on-accent: #1e1b18;
+    --marker: #e3be4e;
+    --danger: #e07a6c;
+    --mark-word: var(--paper); /* 深色主题里单词墨线用纸色 */
+
+    --hue-green: #8fbf7d;
+    --hue-red: #e0877b;
+    --hue-blue: #82acd8;
+    --hue-purple: #b69ad8;
+    --hl-alpha: 30%;
+    --spine-shade: rgba(0, 0, 0, 0.06);
+
+    --tint-due: rgba(227, 190, 78, 0.2);
+    --tint-late: rgba(227, 190, 78, 0.36);
+    --tint-select: rgba(227, 190, 78, 0.26);
+
+    --hover: color-mix(in srgb, var(--ink) 6%, transparent);
+    --pressed: color-mix(in srgb, var(--ink) 11%, transparent);
+    --accent-pressed: color-mix(in srgb, var(--accent) 78%, var(--desk));
+    --scrim: rgba(0, 0, 0, 0.45);
+
+    --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.03);
+    --shadow-2:
+      0 12px 30px -14px rgba(0, 0, 0, 0.6), 0 2px 6px rgba(0, 0, 0, 0.3),
+      0 0 0 1px rgba(255, 255, 255, 0.04);
+    --shadow-3:
+      0 18px 44px -18px rgba(0, 0, 0, 0.7), 0 4px 12px rgba(0, 0, 0, 0.35),
+      0 0 0 1px rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* 减少动态效果：去掉所有位移，只保留 120ms 以内的淡入淡出；划、写、勾直接显示最终状态 */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-base: 120ms;
+    --dur-panel: 120ms;
+    --dur-panel-out: 120ms;
+    --dur-sweep: 0ms;
+    --dur-flash: 0ms;
+    --dur-write: 0ms;
+    --dur-stroke: 0ms;
+    --dur-check: 0ms;
+    --dur-splash-out: 0ms;
+    --stagger: 0ms;
+    --move-sm: 0px;
+    --move-md: 0px;
+  }
+}
+
+/* 品牌三笔：划 / 写 用 scaleX（transform-origin: left center; transform-box: fill-box），
+ * 勾 用 stroke-dashoffset（元素设 pathLength = 1、stroke-dasharray: 1） */
+@keyframes xw-sweep {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes xw-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}

@@ -1,0 +1,190 @@
+/* 今日首页：两张 raised 卡片 + 今天收的词 */
+.home {
+  padding-bottom: var(--sp-8);
+}
+
+.home-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-6);
+  margin: var(--sp-6) var(--page-pad-x) 0;
+}
+
+.home-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  min-height: 200px;
+  padding: var(--sp-6);
+  border-radius: var(--r-lg);
+  background: var(--raised);
+  box-shadow: var(--shadow-1);
+}
+
+.home-card-eyebrow {
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+}
+
+.home-card.is-empty .home-empty-icon {
+  color: var(--faint);
+}
+
+.home-empty-text {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: var(--fs-base);
+  line-height: var(--lh-ui);
+}
+
+.home-card.is-empty .btn {
+  margin-top: auto;
+}
+
+.home-continue {
+  flex-direction: row;
+  align-items: stretch;
+  gap: var(--sp-6);
+}
+
+.home-continue-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-2);
+  min-width: 0;
+}
+
+.home-book-title {
+  margin: 0;
+  overflow: hidden;
+  max-width: 100%;
+  font-family: var(--font-serif);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-semibold);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.home-book-chapter {
+  margin: 0;
+  overflow: hidden;
+  max-width: 100%;
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.home-book-progress {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  width: 100%;
+  margin: var(--sp-1) 0 auto;
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+}
+
+.home-book-progress .marker-progress {
+  flex: 1;
+}
+
+.home-review-count {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  margin-bottom: auto;
+}
+
+.home-stat {
+  font-size: var(--fs-stat);
+  font-weight: var(--fw-medium);
+  line-height: 1;
+}
+
+.home-stat-label {
+  color: var(--ink-2);
+  font-size: var(--fs-base);
+}
+
+/* 今天从书里收的词 */
+.home-collected {
+  margin: var(--sp-8) var(--page-pad-x) 0;
+}
+
+.home-section-title {
+  margin: 0 0 var(--sp-3);
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-regular);
+}
+
+.home-collected-empty {
+  margin: 0;
+  color: var(--faint);
+  font-size: var(--fs-base);
+}
+
+.home-collected-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.home-collected-list li + li {
+  border-top: var(--hairline) solid var(--hair);
+}
+
+.home-word {
+  display: grid;
+  grid-template-columns: minmax(120px, 200px) 1fr auto;
+  align-items: baseline;
+  gap: var(--sp-4);
+  width: 100%;
+  padding: var(--sp-3) var(--sp-2);
+  border: 0;
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  transition: background-color var(--dur-micro) var(--ease-in);
+}
+
+.home-word:hover {
+  background: var(--hover);
+}
+
+.home-word:active {
+  background: var(--pressed);
+}
+
+.home-word-text {
+  font-family: var(--font-serif);
+  font-size: var(--fs-word);
+}
+
+.home-word-meaning {
+  overflow: hidden;
+  color: var(--ink-2);
+  font-size: var(--fs-base);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.home-word-book {
+  color: var(--faint);
+  font-size: var(--fs-sm);
+}
+.home-collected-list > li {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.home-collected-list .home-word {
+  flex: 1;
+  min-width: 0;
+}

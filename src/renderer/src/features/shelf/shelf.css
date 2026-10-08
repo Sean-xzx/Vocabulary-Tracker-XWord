@@ -1,0 +1,170 @@
+/* 书架：我的书（封面网格）/ 发现（Gutendex 搜索） */
+.shelf {
+  padding-bottom: var(--sp-8);
+}
+
+.shelf-body {
+  margin: var(--sp-6) var(--page-pad-x) 0;
+}
+
+.shelf-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(136px, 1fr));
+  gap: var(--sp-8) var(--sp-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.shelf-book {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  width: 136px;
+}
+
+.shelf-book-open {
+  padding: 0;
+  border: 0;
+  border-radius: var(--r-sm);
+  background: transparent;
+  transition: opacity var(--dur-micro) var(--ease-in);
+}
+
+.shelf-book-open:hover .book-cover {
+  box-shadow: var(--shadow-3);
+}
+
+.shelf-book-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  height: var(--control-h-sm);
+  color: var(--ink-2);
+  font-size: var(--fs-xs);
+}
+
+.shelf-book-meta .marker-progress {
+  flex: 1;
+}
+
+.shelf-book-percent {
+  min-width: 30px;
+  text-align: right;
+}
+
+/* 移除按钮只在悬停或聚焦时出现 */
+.shelf-book-remove {
+  opacity: 0;
+  transition: opacity var(--dur-micro) var(--ease-in);
+}
+
+.shelf-book:hover .shelf-book-remove,
+.shelf-book-remove:focus-visible {
+  opacity: 1;
+}
+
+/* 发现 */
+.discover-search {
+  max-width: 480px;
+}
+
+.discover-note,
+.discover-loading {
+  margin: var(--sp-4) 0 var(--sp-2);
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+}
+
+.discover-error {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin: var(--sp-4) 0;
+  color: var(--danger);
+  font-size: var(--fs-base);
+}
+
+.discover-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.discover-list[aria-busy='true'] {
+  opacity: 0.6;
+}
+
+.discover-row {
+  display: grid;
+  grid-template-columns: 1fr 120px 160px;
+  align-items: center;
+  gap: var(--sp-4);
+  min-height: 56px;
+  padding: var(--sp-2) 0;
+  border-bottom: var(--hairline) solid var(--hair);
+}
+
+.discover-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.discover-title {
+  overflow: hidden;
+  font-family: var(--font-serif);
+  font-size: var(--fs-lg);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.discover-author {
+  overflow: hidden;
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.discover-count {
+  color: var(--faint);
+  font-size: var(--fs-xs);
+  text-align: right;
+}
+
+.discover-action {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.discover-progress {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  width: 150px;
+  color: var(--ink-2);
+  font-size: var(--fs-xs);
+}
+
+.discover-progress .marker-progress {
+  flex: 1;
+}
+
+.discover-foot {
+  margin-top: var(--sp-8);
+}
+
+.discover-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin-left: calc(var(--sp-3) * -1);
+}
+
+.discover-hint {
+  margin: var(--sp-1) 0 0;
+  color: var(--faint);
+  font-size: var(--fs-sm);
+}

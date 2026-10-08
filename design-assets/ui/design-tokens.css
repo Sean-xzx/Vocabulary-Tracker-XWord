@@ -1,0 +1,25 @@
+/* XWord 设计变量 v2 —— 颜色沿用原方案，新增“四层表面”与三级阴影
+   层级（从低到高）：desk 桌面 < paper 纸面 < raised 抬起 < overlay 浮层 */
+:root{
+  --desk:#F3ECE1; --paper:#FAF7F2; --raised:#FFFDF9; --overlay:#FFFDF9;
+  --line:#E2D5C2; --hair:#ECE4D7; --rule-strong:#C9BCA6;
+  --ink:#2B2622; --soft:#7A6E63; --faint:#A89C8F;
+  --accent:#C9814B; --accent-ink:#FFFDF9; --marker:#D9B23A; --danger:#B5483B;
+  --tint-due:rgba(217,178,58,.24); --tint-late:rgba(217,178,58,.42); --tint-select:rgba(217,178,58,.30);
+  --shadow-1:0 1px 2px rgba(43,38,34,.06),0 0 0 1px rgba(43,38,34,.04);
+  --shadow-2:0 10px 28px -14px rgba(43,38,34,.22),0 2px 6px rgba(43,38,34,.05),0 0 0 1px rgba(43,38,34,.04);
+  --shadow-3:0 18px 44px -18px rgba(43,38,34,.32),0 4px 12px rgba(43,38,34,.08),0 0 0 1px rgba(43,38,34,.05);
+  --r-xs:5px; --r-sm:9px; --r-md:10px; --r-lg:14px; --r-xl:18px; --r-card:22px;
+  --font-ui:'Segoe UI','Microsoft YaHei UI','Microsoft YaHei','PingFang SC',sans-serif;
+  --font-serif:Newsreader,Georgia,'Times New Roman','Microsoft YaHei UI',serif;
+}
+@media (prefers-color-scheme:dark){:root{
+  --desk:#171513; --paper:#1E1B18; --raised:#27231F; --overlay:#2F2A25;
+  --line:#3A342E; --hair:#2C2824; --rule-strong:#5E554C;
+  --ink:#ECE5DA; --soft:#A2968A; --faint:#756B61;
+  --accent:#D9955F; --accent-ink:#1E1B18; --marker:#E3BE4E; --danger:#E07A6C;
+  --tint-due:rgba(227,190,78,.20); --tint-late:rgba(227,190,78,.36); --tint-select:rgba(227,190,78,.26);
+  --shadow-1:0 1px 2px rgba(0,0,0,.35),0 0 0 1px rgba(255,255,255,.03);
+  --shadow-2:0 12px 30px -14px rgba(0,0,0,.6),0 2px 6px rgba(0,0,0,.3),0 0 0 1px rgba(255,255,255,.04);
+  --shadow-3:0 18px 44px -18px rgba(0,0,0,.7),0 4px 12px rgba(0,0,0,.35),0 0 0 1px rgba(255,255,255,.05);
+}}

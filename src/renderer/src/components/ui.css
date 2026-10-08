@@ -1,0 +1,470 @@
+/* ---------------- 页面头部：左边小标题 + 标题 + 一行 meta，右边操作；每屏最多一个主按钮 ---------------- */
+.page-head {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--sp-4);
+  padding: var(--page-pad-top) var(--page-pad-x) 0;
+}
+
+.page-head-text {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--sp-4);
+  min-width: 0;
+}
+
+.page-eyebrow {
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+}
+
+.page-title {
+  margin-top: var(--sp-1);
+  font-size: var(--fs-title);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.01em;
+  line-height: var(--lh-tight);
+  white-space: nowrap;
+}
+
+.page-meta {
+  padding-bottom: 5px;
+  color: var(--ink-2);
+  font-size: 13.5px;
+  white-space: nowrap;
+}
+
+.page-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-left: auto;
+}
+
+/* ---------------- Button：主 / 次 / 幽灵；高 36、圆角 9；按下只变背景 ---------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  height: var(--control-h);
+  padding: 0 14px;
+  border: 0;
+  border-radius: var(--r-sm);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-regular);
+  line-height: 1;
+  white-space: nowrap;
+  transition:
+    background-color var(--dur-micro) var(--ease-in),
+    color var(--dur-micro) var(--ease-in);
+}
+
+.btn-sm {
+  height: var(--control-h-sm);
+  padding: 0 var(--sp-3);
+  font-size: var(--fs-sm);
+}
+
+/* 页面级主操作：高 48、圆角 12、带快捷键提示 */
+.btn-lg {
+  gap: var(--sp-3);
+  height: var(--control-h-lg);
+  padding: 0 22px;
+  border-radius: var(--r-button-lg);
+  font-size: 15.5px;
+  font-weight: var(--fw-semibold);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+  box-shadow: var(--shadow-1);
+}
+.btn-primary:hover {
+  background: var(--accent-hover);
+}
+.btn-primary:active {
+  background: var(--accent-pressed);
+}
+.btn-primary kbd {
+  background: color-mix(in srgb, var(--on-accent) 18%, transparent);
+  box-shadow: none;
+  color: var(--on-accent);
+  font-weight: var(--fw-medium);
+}
+
+.btn-secondary {
+  background: var(--raised);
+  box-shadow: inset 0 0 0 var(--hairline) var(--border);
+  color: var(--ink);
+}
+.btn-secondary:hover {
+  background: color-mix(in srgb, var(--raised) 100%, var(--ink) 4%);
+}
+.btn-secondary:active {
+  background: color-mix(in srgb, var(--raised) 100%, var(--ink) 9%);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ink-2);
+}
+.btn-ghost:hover {
+  background: var(--hover);
+  color: var(--ink);
+}
+.btn-ghost:active {
+  background: var(--pressed);
+}
+.btn-ghost.is-active {
+  color: var(--ink);
+}
+
+.btn-icon {
+  width: var(--control-h);
+  padding: 0;
+}
+.btn-icon.btn-sm {
+  width: var(--control-h-sm);
+}
+
+/* 一组相连的按钮（上一页 / 下一页）：raised 底 + 1px 描边，中间一条竖线 */
+.btn-group {
+  display: inline-flex;
+  border-radius: var(--r-sm);
+  background: var(--raised);
+  box-shadow: inset 0 0 0 var(--hairline) var(--border);
+}
+
+.btn-group .btn {
+  border-radius: 0;
+  background: transparent;
+}
+
+.btn-group .tooltip-anchor:first-child .btn {
+  border-radius: var(--r-sm) 0 0 var(--r-sm);
+}
+
+.btn-group .tooltip-anchor:last-child .btn {
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+}
+
+.btn-group .tooltip-anchor + .tooltip-anchor {
+  box-shadow: inset var(--hairline) 0 0 var(--border);
+}
+
+/* ---------------- Tooltip ---------------- */
+.tooltip-anchor {
+  display: inline-flex;
+}
+
+.tooltip {
+  z-index: var(--z-tooltip);
+  max-width: 280px;
+  padding: var(--sp-1) var(--sp-2);
+  background: var(--overlay);
+  color: var(--ink);
+  border-radius: var(--r-xs);
+  box-shadow: var(--shadow-3);
+  font-size: var(--fs-xs);
+  line-height: var(--lh-ui);
+  pointer-events: none;
+  animation: fade-in var(--dur-base) var(--ease-in);
+}
+
+.tip-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+/* ---------------- Popover（overlay 层）：从锚点方向偏移 4px 淡入 180，关闭淡出 120 ---------------- */
+.floating {
+  z-index: var(--z-popover);
+}
+
+.popover {
+  z-index: var(--z-popover);
+  padding: var(--sp-1);
+  background: var(--overlay);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-3);
+}
+
+/* ---------------- Dialog：遮罩淡入 180；对话框自下 8px 淡入 240 ---------------- */
+.dialog-overlay {
+  z-index: var(--z-dialog);
+  display: grid;
+  place-items: center;
+  background: var(--scrim);
+  animation: fade-in var(--dur-base) var(--ease-in);
+}
+
+.dialog {
+  display: flex;
+  flex-direction: column;
+  max-width: calc(100vw - var(--sp-11));
+  max-height: calc(100vh - var(--sp-11));
+  background: var(--overlay);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-3);
+  animation: rise-in-md var(--dur-panel) var(--ease-in);
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-4) var(--sp-4) var(--sp-2) var(--sp-6);
+}
+
+.dialog-header h2 {
+  font-size: var(--fs-lg);
+}
+
+.dialog-body {
+  padding: var(--sp-2) var(--sp-6) var(--sp-4);
+  overflow: auto;
+  min-height: 0;
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-6) var(--sp-6);
+}
+
+.confirm-message {
+  color: var(--ink-2);
+  line-height: var(--lh-body);
+  user-select: text;
+}
+
+/* ---------------- EmptyState ---------------- */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  height: 100%;
+  min-height: 240px;
+  padding: var(--sp-8);
+  color: var(--ink-2);
+  text-align: center;
+}
+
+.empty-state-icon {
+  color: var(--faint);
+}
+
+.empty-state-actions {
+  display: flex;
+  gap: var(--sp-2);
+  margin-top: var(--sp-2);
+}
+
+/* ---------------- SegmentedControl：桌面色底槽 + raised 选中块 ---------------- */
+.segmented {
+  display: inline-flex;
+  padding: 3px;
+  gap: 2px;
+  background: var(--desk);
+  border-radius: var(--r-sm);
+}
+
+.segmented-item {
+  height: 30px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+  transition:
+    background-color var(--dur-micro) var(--ease-in),
+    color var(--dur-micro) var(--ease-in);
+}
+
+.segmented-item:hover {
+  color: var(--ink);
+}
+
+.segmented-item:active {
+  background: var(--pressed);
+}
+
+.segmented-item.is-selected {
+  background: var(--raised);
+  color: var(--ink);
+  box-shadow: var(--shadow-1);
+  font-weight: var(--fw-semibold);
+}
+
+/* ---------------- Toast：自下 8px 淡入 180；淡出 120 ---------------- */
+.toast-viewport {
+  position: fixed;
+  left: 50%;
+  bottom: var(--sp-6);
+  z-index: var(--z-toast);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  min-width: 240px;
+  max-width: 520px;
+  min-height: 42px;
+  padding: var(--sp-2) var(--sp-2) var(--sp-2) var(--sp-4);
+  background: var(--overlay);
+  color: var(--ink);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-3);
+  font-size: var(--fs-sm);
+  pointer-events: auto;
+  animation: rise-in-md var(--dur-base) var(--ease-in);
+}
+
+.toast.is-leaving {
+  animation: fade-out var(--dur-micro) var(--ease-out) both;
+  pointer-events: none;
+}
+
+.toast-error .toast-message {
+  color: var(--danger);
+}
+
+.toast-message {
+  flex: 1;
+  padding-right: var(--sp-2);
+}
+
+.toast-action {
+  height: var(--control-h-sm);
+  padding: 0 var(--sp-3);
+  border: 0;
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--accent);
+  font-weight: var(--fw-semibold);
+  transition: background-color var(--dur-micro) var(--ease-in);
+}
+
+.toast-action:hover {
+  background: var(--hover);
+}
+
+.toast-action:active {
+  background: var(--pressed);
+}
+
+/* ---------------- 词义：词性 / 领域标记用次要色 ---------------- */
+.pos {
+  margin-right: 6px;
+  color: var(--ink-2);
+  font-family: var(--font-ui);
+}
+
+.meaning-part + .meaning-part {
+  margin-left: var(--sp-3);
+}
+
+/* 小标签（拖欠 N 天、难词等） */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  padding: 1px var(--sp-2);
+  border-radius: 6px;
+  color: var(--ink);
+  font-size: var(--fs-xs);
+  line-height: 18px;
+}
+
+.tag.is-due {
+  background: var(--tint-due);
+}
+
+.tag.is-late {
+  background: var(--tint-late);
+}
+
+.tag.is-outline {
+  box-shadow: inset 0 0 0 var(--hairline) var(--border);
+  color: var(--ink-2);
+}
+
+/* ---------------- 通用输入框（raised 底 + 1px 描边，聚焦时陶土色描边） ---------------- */
+.search-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 38px;
+  padding: 0 var(--sp-3);
+  border-radius: var(--r-md);
+  background: var(--raised);
+  box-shadow: inset 0 0 0 var(--hairline) var(--border);
+  color: var(--faint);
+  transition: box-shadow var(--dur-micro) var(--ease-in);
+}
+
+.search-field:focus-within {
+  box-shadow: inset 0 0 0 var(--hairline) var(--accent);
+}
+
+.search-field input,
+.text-input {
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: var(--fs-md);
+  outline: none;
+}
+
+.search-field input {
+  flex: 1;
+}
+
+.search-field input::placeholder,
+.text-input::placeholder {
+  color: var(--faint);
+}
+
+.text-input {
+  height: var(--control-h);
+  padding: 0 var(--sp-3);
+  border-radius: var(--r-sm);
+  background: var(--raised);
+  box-shadow: inset 0 0 0 var(--hairline) var(--border);
+  transition: box-shadow var(--dur-micro) var(--ease-in);
+}
+
+.text-input:hover {
+  box-shadow: inset 0 0 0 var(--hairline) var(--faint);
+}
+
+.text-input:focus {
+  box-shadow: inset 0 0 0 var(--hairline) var(--accent);
+}
+/* 朗读按钮复用普通图标按钮，不引入额外强调色。 */
+.word-audio {
+  flex-shrink: 0;
+  vertical-align: middle;
+}

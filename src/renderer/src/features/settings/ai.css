@@ -1,0 +1,65 @@
+/* 设置 · AI 翻译 */
+.ai-settings {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-2);
+  width: 100%;
+}
+
+.ai-line {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.ai-key {
+  width: 260px;
+  font-family: var(--font-ui);
+  letter-spacing: 0.02em;
+}
+
+.ai-label {
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+}
+
+.ai-model {
+  width: 180px;
+}
+
+.ai-state {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+}
+
+.ai-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--r-full);
+  background: var(--faint);
+}
+
+.ai-dot.is-on {
+  background: var(--marker);
+}
+
+.ai-test {
+  margin-left: var(--sp-3);
+}
+
+.ai-test.is-ok {
+  color: var(--ink);
+}
+
+.ai-test.is-error {
+  color: var(--danger);
+}
+
+.ai-link {
+  margin-left: calc(var(--sp-3) * -1);
+}

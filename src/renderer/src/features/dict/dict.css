@@ -1,0 +1,180 @@
+/* ---------------- 义项面板（overlay 层） ---------------- */
+.sense-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  width: min(460px, calc(100vw - var(--sp-8)));
+  max-height: min(420px, calc(100vh - 120px));
+  padding: 18px 18px 14px;
+  overflow: auto;
+}
+
+.sense-note {
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+}
+
+.sense-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.sense-word {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: var(--fw-semibold);
+}
+
+.sense-phonetic {
+  color: var(--ink-2);
+  font-size: 13.5px;
+  user-select: text;
+}
+
+.sense-tags {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.sense-tag {
+  padding: 1px 7px;
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 var(--hairline) var(--border);
+  color: var(--ink-2);
+  font-size: 11.5px;
+  line-height: 18px;
+}
+
+.sense-lemma {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: 6px 6px 6px var(--sp-3);
+  border-radius: var(--r-sm);
+  background: var(--tint-due);
+  font-size: var(--fs-sm);
+}
+
+.sense-lemma > span {
+  flex: 1;
+}
+
+.sense-groups {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.sense-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.sense-label {
+  color: var(--faint);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.04em;
+}
+
+.sense-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+/* 义项：未选中是细描边；选中时荧光笔从左划过 200（半透明底），取消时淡出 120 */
+.sense-chip {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px var(--sp-3);
+  border-radius: var(--r-sm);
+  box-shadow: inset 0 0 0 var(--hairline) var(--border);
+  color: var(--ink);
+  font-size: var(--fs-md);
+  line-height: var(--lh-ui);
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--dur-micro) var(--ease-in),
+    box-shadow var(--dur-micro) var(--ease-in);
+}
+
+.sense-chip::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--tint-select);
+  opacity: 0;
+  transform-origin: left center;
+  transition: opacity var(--dur-micro) var(--ease-out);
+}
+
+.sense-chip:hover {
+  background: var(--hover);
+}
+
+.sense-chip:active {
+  background: var(--pressed);
+}
+
+.sense-chip.is-selected {
+  box-shadow: none;
+}
+
+.sense-chip.is-selected::before {
+  opacity: 1;
+  transition: none;
+  animation: xw-sweep var(--dur-sweep) var(--ease-stroke);
+}
+
+.sense-chip:focus-visible {
+  outline: var(--focus-width) solid var(--focus-ring);
+  outline-offset: 1px;
+}
+
+.sense-num {
+  color: var(--ink-2);
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.sense-domain {
+  color: var(--ink-2);
+  font-size: var(--fs-xs);
+}
+
+.sense-foot {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-sm);
+}
+
+.sense-manual {
+  color: var(--accent);
+}
+
+.sense-preview {
+  color: var(--ink-2);
+  user-select: text;
+}
+
+.sense-keys {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding-top: var(--sp-3);
+  box-shadow: inset 0 var(--hairline) 0 var(--hair);
+  color: var(--faint);
+  font-size: var(--fs-xs);
+}

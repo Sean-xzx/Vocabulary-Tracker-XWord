@@ -1,0 +1,22 @@
+node_modules
+out
+dist
+release
+*.log
+.DS_Store
+.env
+.env.*
+.eslintcache
+.claude/settings.local.json
+.test-tmp
+vendor
+
+# Private assistant configuration and prompt preparation materials stay local.
+/.claude/
+/docs/chatgpt-context/
+
+# Local verification and OS-generated files.
+coverage/
+*.tsbuildinfo
+Thumbs.db
+Desktop.ini

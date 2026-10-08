@@ -1,0 +1,93 @@
+/* 生成的封面：纸色底 + 衬线书名 + 作者 + 底部荧光笔色块 */
+.book-cover {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  overflow: hidden;
+  padding: 18px 14px 0;
+  border-radius: var(--r-xs) var(--r-sm) var(--r-sm) var(--r-xs);
+  background: var(--paper);
+  box-shadow: var(--shadow-2);
+  color: var(--ink);
+}
+
+.book-cover.is-md {
+  width: 136px;
+  height: 192px;
+}
+
+.book-cover.is-sm {
+  flex: 0 0 auto;
+  width: 84px;
+  height: 118px;
+  padding: 10px 8px 0;
+  gap: 4px;
+}
+
+.book-cover-title {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  font-family: var(--font-serif);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.01em;
+}
+
+.book-cover.is-sm .book-cover-title {
+  -webkit-line-clamp: 4;
+  font-size: var(--fs-sm);
+}
+
+.book-cover-author {
+  overflow: hidden;
+  color: var(--ink-2);
+  font-family: var(--font-serif);
+  font-size: var(--fs-xs);
+  font-style: italic;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.book-cover.is-sm .book-cover-author {
+  font-size: 10px;
+}
+
+/* 底部一道荧光笔：末端斜切 */
+.book-cover-marker {
+  position: absolute;
+  left: 14px;
+  right: 22px;
+  bottom: 16px;
+  height: 12px;
+  background: var(--marker);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+}
+
+.book-cover.is-sm .book-cover-marker {
+  left: 8px;
+  right: 14px;
+  bottom: 10px;
+  height: 8px;
+}
+
+/* 荧光笔进度条：末端斜切，只动 scaleX */
+.marker-progress {
+  position: relative;
+  height: 6px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--hair);
+}
+
+.marker-progress-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--marker);
+  transform-origin: left center;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 4px) 100%, 0 100%);
+  transition: transform var(--dur-panel) var(--ease-in);
+}

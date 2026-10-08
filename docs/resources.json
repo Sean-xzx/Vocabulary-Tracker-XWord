@@ -1,0 +1,16 @@
+{
+  "applicationVersion": "0.4.1",
+  "dictionary": {
+    "path": "resources/dict/ecdict-lite.json.gz",
+    "source": "https://github.com/skywind3000/ECDICT",
+    "licensePath": "resources/dict/ECDICT-LICENSE.txt",
+    "entries": 671871,
+    "bytes": 14999974,
+    "sha256": "37fdc8159f14f3dbd8058e4f407bea3647fe195a36128ef0824acbe14f311b56"
+  },
+  "icon": {
+    "path": "build/icon.ico",
+    "sourcePath": "design-assets/icon/app-icon.ico",
+    "sha256": "e929be01172e409789b97de72f5fd5ede20070e03a5c7daa5c1d2f84fb4b7f56"
+  }
+}

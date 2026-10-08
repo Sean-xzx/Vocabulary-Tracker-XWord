@@ -1,0 +1,90 @@
+/* 翻译面板（overlay） */
+.translate-panel {
+  width: 440px;
+  max-width: calc(100vw - 32px);
+  padding: var(--sp-3) var(--sp-4) var(--sp-4);
+  font-family: var(--font-ui);
+}
+
+.translate-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-2);
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+}
+
+.translate-cached {
+  margin-left: 6px;
+  color: var(--faint);
+}
+
+.ai-text {
+  margin: 0;
+  color: var(--ink);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  white-space: pre-wrap;
+}
+
+.translate-explain {
+  margin-top: var(--sp-4);
+}
+
+.translate-sub {
+  margin-bottom: var(--sp-1);
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+}
+
+.ai-error {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2);
+  color: var(--danger);
+  font-size: var(--fs-base);
+}
+
+/*
+ * AI 等待：荧光笔从左往右划出、淡去，循环——全软件唯一允许循环播放的动效；第一个字出现后这个元素就被移除。
+ * 只动 transform 和 opacity；减少动态效果时显示一条静止的淡色荧光笔。
+ */
+.ai-wait {
+  display: flex;
+  align-items: center;
+  height: 28px;
+}
+
+.ai-wait-bar {
+  width: 120px;
+  height: 10px;
+  background: var(--marker);
+  transform-origin: left center;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 5px) 100%, 0 100%);
+  animation: ai-wait var(--dur-ai-wait) var(--ease-stroke) infinite;
+}
+
+@keyframes ai-wait {
+  0% {
+    opacity: 1;
+    transform: scaleX(0);
+  }
+  55% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-wait-bar {
+    opacity: 0.5;
+    animation: none;
+  }
+}

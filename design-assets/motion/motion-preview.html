@@ -1,0 +1,78 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>XWord 动效预览</title>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:#2B2622;background:#FAF7F2}
+
+.cell{border-radius:16px;box-shadow:inset 0 0 0 1px #E2D5C2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;position:relative}
+.stage{height:190px;display:flex;align-items:center;justify-content:center}
+.cap{font-size:13px;color:#7A6E63;letter-spacing:.04em;text-align:center;line-height:1.7}
+.cap b{color:#2B2622;font-weight:600}
+svg .mk,svg .wd,.sweep{transform-box:fill-box;transform-origin:left center}
+/* splash: 800ms inside a 3.2s loop */
+.sp .pg{animation:spPg 3.2s cubic-bezier(.2,0,0,1) infinite}
+.sp .mk{animation:spMk 3.2s cubic-bezier(.65,0,.35,1) infinite}
+.sp .wd{animation:spWd 3.2s cubic-bezier(.65,0,.35,1) infinite}
+.sp .ck{stroke-dasharray:18;animation:spCk 3.2s cubic-bezier(.65,0,.35,1) infinite}
+.sp{animation:spAll 3.2s linear infinite}
+@keyframes spPg{0%{opacity:0}3.75%,100%{opacity:1}}
+@keyframes spMk{0%,3.75%{transform:scaleX(0)}10%,100%{transform:scaleX(1)}}
+@keyframes spWd{0%,10%{transform:scaleX(0)}14.7%,100%{transform:scaleX(1)}}
+@keyframes spCk{0%,14.7%{stroke-dashoffset:18}20.9%,100%{stroke-dashoffset:0}}
+@keyframes spAll{0%,88%{opacity:1}94%,100%{opacity:0}}
+/* grid tick */
+.row{display:flex}
+.row div{width:52px;height:44px;box-shadow:inset 0 0 0 1px #C9BCA6;display:flex;align-items:center;justify-content:center;position:relative;margin-left:-1px}
+.due{position:absolute;inset:1px;background:rgba(217,178,58,.32);animation:dueOut 3s cubic-bezier(.4,0,1,1) infinite}
+.tick{stroke-dasharray:18;animation:tickDraw 3s cubic-bezier(.65,0,.35,1) infinite}
+@keyframes tickDraw{0%,30%{stroke-dashoffset:18}36.7%,92%{stroke-dashoffset:0}96%,100%{stroke-dashoffset:18}}
+@keyframes dueOut{0%,36.7%{opacity:1}40.7%,92%{opacity:0}96%,100%{opacity:1}}
+/* chips */
+.chips{display:flex;gap:10px}
+.chip{position:relative;padding:8px 14px;border-radius:8px;box-shadow:inset 0 0 0 1px #E2D5C2;font-size:15px;overflow:hidden}
+.chip span{position:relative}
+.chip .num{color:#7A6E63;font-size:12px;margin-right:6px}
+.chip .sweep{position:absolute;inset:0;background:rgba(217,178,58,.38)}
+.c1 .sweep{animation:chip1 3s cubic-bezier(.65,0,.35,1) infinite}
+.c2 .sweep{animation:chip2 3s cubic-bezier(.65,0,.35,1) infinite}
+.c3 .sweep{transform:scaleX(0)}
+@keyframes chip1{0%,20%{transform:scaleX(0)}26.7%,90%{transform:scaleX(1);opacity:1}94%,100%{transform:scaleX(1);opacity:0}}
+@keyframes chip2{0%,45%{transform:scaleX(0)}51.7%,90%{transform:scaleX(1);opacity:1}94%,100%{transform:scaleX(1);opacity:0}}
+.meaning{font-size:15px;color:#2B2622;height:22px;position:relative;width:220px;text-align:center}
+.meaning span{position:absolute;left:0;right:0}
+.m0{animation:m0 3s steps(1) infinite}.m1{animation:m1 3s steps(1) infinite}.m2{animation:m2 3s steps(1) infinite}
+@keyframes m0{0%{opacity:1}20%,100%{opacity:0}}
+@keyframes m1{0%,20%{opacity:0}20.1%{opacity:1}45%,100%{opacity:0}}
+@keyframes m2{0%,45%{opacity:0}45.1%{opacity:1}94%,100%{opacity:0}}
+/* card switch */
+.cards{position:relative;width:260px;height:170px}
+.card{position:absolute;inset:0;border-radius:12px;background:#FAF7F2;box-shadow:inset 0 0 0 1px #E2D5C2,0 6px 18px -12px rgba(43,38,34,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.card .w{font-family:Newsreader,Georgia,serif;font-size:34px;font-weight:600;letter-spacing:-.02em}
+.card .a{font-size:14px;color:#7A6E63}
+.k1{animation:k1 3.6s infinite}
+.k1 .a{animation:k1a 3.6s cubic-bezier(.2,0,0,1) infinite}
+.k2{animation:k2 3.6s infinite}
+@keyframes k1{0%,55%{opacity:1;transform:translateX(0);animation-timing-function:cubic-bezier(.4,0,1,1)}58.3%,100%{opacity:0;transform:translateX(-8px)}}
+@keyframes k1a{0%,25%{opacity:0;transform:translateY(4px)}30%,100%{opacity:1;transform:translateY(0)}}
+@keyframes k2{0%,58.3%{opacity:0;transform:translateX(8px);animation-timing-function:cubic-bezier(.2,0,0,1)}63.3%,92%{opacity:1;transform:translateX(0)}97%,100%{opacity:0;transform:translateX(0)}}
+/* progress */
+.track{width:300px;height:8px;border-radius:4px;background:#EFE7DA;overflow:hidden}
+.fill{height:100%;width:100%;background:#D9B23A;clip-path:polygon(0 0,100% 0,calc(100% - 6px) 100%,0 100%);transform-origin:left center;animation:prog 4s cubic-bezier(.2,0,0,1) infinite}
+@keyframes prog{0%,10%{transform:scaleX(.1)}16%,30%{transform:scaleX(.3)}36%,50%{transform:scaleX(.5)}56%,70%{transform:scaleX(.75)}76%,92%{transform:scaleX(1)}97%,100%{transform:scaleX(.1)}}
+.pnum{font-size:13px;color:#7A6E63;font-variant-numeric:tabular-nums}
+/* done */
+.dn .ck{stroke-dasharray:18;animation:dnCk 3.2s cubic-bezier(.65,0,.35,1) infinite}
+@keyframes dnCk{0%,18%{stroke-dashoffset:18}27.4%,92%{stroke-dashoffset:0}96%,100%{stroke-dashoffset:18}}
+.dtxt{font-size:15px;color:#2B2622;animation:dTxt 3.2s cubic-bezier(.2,0,0,1) infinite}
+@keyframes dTxt{0%,30%{opacity:0;transform:translateY(4px)}35.6%,92%{opacity:1;transform:translateY(0)}96%,100%{opacity:0}}
+@media (prefers-reduced-motion: reduce){*{animation:none!important}}
+
+</style></head><body>
+<div style="width: 1600px; height: 1000px; box-sizing: border-box; background: #FAF7F2; padding: 80px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 40px;">
+<div class="cell"><div class="stage"><svg class="sp" width="150" height="150" viewBox="0 0 100 100" aria-label="开屏动效"><g class="pg"><rect x="22" y="22" width="56" height="64" rx="8" fill="#FAF7F2" stroke="#2B2622" stroke-width="4"></rect><rect x="32.5" y="13" width="5" height="16" rx="2.5" fill="#2B2622"></rect><rect x="47.5" y="13" width="5" height="16" rx="2.5" fill="#2B2622"></rect><rect x="62.5" y="13" width="5" height="16" rx="2.5" fill="#2B2622"></rect><line x1="61" y1="26" x2="61" y2="82" stroke="#C9BCA6" stroke-width="2.5"></line></g><polygon class="mk" points="28,45 57,45 55.5,58 26.5,58" fill="#D9B23A"></polygon><line class="wd" x1="31" y1="51.5" x2="50" y2="51.5" stroke="#2B2622" stroke-width="5" stroke-linecap="round"></line><polyline class="ck" points="64.5,52 68.5,56.5 75,47" fill="none" stroke="#2B2622" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"></polyline></svg></div><div class="cap"><b>开屏</b> · 本子出现 → 荧光笔划过 → 写下单词 → 打勾<br>120 + 200 + 150 + 200 ms，共约 800ms</div></div>
+<div class="cell"><div class="stage"><div class="row"><div><svg width="22" height="22" viewBox="60 42 20 20"><polyline points="64.5,52 68.5,56.5 75,47" fill="none" stroke="#2B2622" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></polyline></svg></div><div><svg width="22" height="22" viewBox="60 42 20 20"><polyline points="64.5,52 68.5,56.5 75,47" fill="none" stroke="#2B2622" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></polyline></svg></div><div><span class="due"></span><svg width="22" height="22" viewBox="60 42 20 20"><polyline class="tick" points="64.5,52 68.5,56.5 75,47" fill="none" stroke="#2B2622" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></polyline></svg></div><div></div></div></div><div class="cap"><b>网格打勾</b> · 勾沿笔画写出 200ms<br>随后到期高亮淡出 120ms</div></div>
+<div class="cell"><div class="stage" style="flex-direction: column; gap: 18px;"><div class="chips"><div class="chip c1"><i class="sweep"></i><span><span class="num">1</span>能力</span></div><div class="chip c2"><i class="sweep"></i><span><span class="num">2</span>才能</span></div><div class="chip c3"><i class="sweep"></i><span><span class="num">3</span>本领</span></div></div><div class="meaning"><span class="m0" style="color:#7A6E63">选择词义</span><span class="m1">n. 能力</span><span class="m2">n. 能力；才能</span></div></div><div class="cap"><b>选义项</b> · 荧光笔从左往右划过义项 200ms<br>词义框文字即时更新，不做动画</div></div>
+<div class="cell"><div class="stage"><div class="cards"><div class="card k1"><div class="w">ability</div><div class="a">n. 能力；才能</div></div><div class="card k2"><div class="w">absorb</div><div class="a" style="opacity:0">v. 吸收</div></div></div></div><div class="cap"><b>复习卡片</b> · 翻面：词义上浮淡入 180ms<br>换卡：向左淡出 120ms，从右淡入 180ms</div></div>
+<div class="cell"><div class="stage" style="flex-direction: column; gap: 14px;"><div class="track"><div class="fill"></div></div><div class="pnum">每答一题，荧光笔向前推一截 · 240ms</div></div><div class="cap"><b>进度条</b> · 末端斜切，只用 scaleX 变化<br>不回弹、不闪烁</div></div>
+<div class="cell"><div class="stage" style="flex-direction: column; gap: 16px;"><svg class="dn" width="110" height="110" viewBox="0 0 100 100" aria-label="完成动效"><g class="pg"><rect x="22" y="22" width="56" height="64" rx="8" fill="#FAF7F2" stroke="#2B2622" stroke-width="4"></rect><rect x="32.5" y="13" width="5" height="16" rx="2.5" fill="#2B2622"></rect><rect x="47.5" y="13" width="5" height="16" rx="2.5" fill="#2B2622"></rect><rect x="62.5" y="13" width="5" height="16" rx="2.5" fill="#2B2622"></rect><line x1="61" y1="26" x2="61" y2="82" stroke="#C9BCA6" stroke-width="2.5"></line></g><polygon class="mk" points="28,45 57,45 55.5,58 26.5,58" fill="#D9B23A"></polygon><line class="wd" x1="31" y1="51.5" x2="50" y2="51.5" stroke="#2B2622" stroke-width="5" stroke-linecap="round"></line><polyline class="ck" points="64.5,52 68.5,56.5 75,47" fill="none" stroke="#2B2622" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"></polyline></svg><div class="dtxt">今天复习了 28 个</div></div><div class="cap"><b>完成页</b> · 只有那一笔勾被写出 300ms<br>数字随后淡入，不滚动、不撒花</div></div>
+</div>
+</body></html>

@@ -1,0 +1,545 @@
+/* ---------------- 词库：页头（搜索）+ 胶囊筛选 + 列表 / 分隔条 / 详情 ---------------- */
+.library {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.library-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  margin-top: 18px;
+  box-shadow: inset 0 var(--hairline) 0 var(--hair);
+}
+
+.library-list {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 280px;
+  min-height: 0;
+}
+
+.library-detail {
+  flex: 0 0 auto;
+  min-width: 320px;
+  max-width: calc(100% - 280px);
+  overflow: auto;
+}
+
+/* ---------------- 分隔条：平时 1px 细线；悬停 150ms 后变成 3px 陶土色线（变化本身 120） ---------------- */
+.splitter {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 var(--hairline);
+  background: var(--hair);
+  cursor: col-resize;
+  touch-action: none;
+}
+
+/* 实际可抓取区域约 9px */
+.splitter::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -4px;
+  width: 9px;
+}
+
+.splitter::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -1px;
+  width: 3px;
+  background: var(--accent);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-micro) var(--ease-in);
+}
+
+.splitter:hover::after {
+  opacity: 1;
+  transition-delay: 150ms;
+}
+
+.splitter.is-dragging::after {
+  opacity: 1;
+  transition-delay: 0ms;
+}
+
+/* ---------------- 搜索（页头右侧）与排序 ---------------- */
+.library-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 340px;
+  height: 38px;
+  padding: 0 var(--sp-3);
+  border-radius: var(--r-md);
+  background: var(--raised);
+  box-shadow: inset 0 0 0 var(--hairline) var(--border);
+  color: var(--faint);
+  transition: box-shadow var(--dur-micro) var(--ease-in);
+}
+
+.library-search:focus-within {
+  box-shadow: inset 0 0 0 var(--hairline) var(--accent);
+}
+
+.library-search input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: var(--fs-md);
+  outline: none;
+}
+
+.library-search input::placeholder {
+  color: var(--faint);
+}
+
+.library-search input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.library-sort select {
+  height: 38px;
+  padding: 0 var(--sp-2);
+  border: 0;
+  border-radius: var(--r-md);
+  background: var(--raised);
+  box-shadow: inset 0 0 0 var(--hairline) var(--border);
+  color: var(--ink);
+  font-size: var(--fs-sm);
+  outline: none;
+}
+
+.library-sort select:focus-visible {
+  outline: var(--focus-width) solid var(--focus-ring);
+  outline-offset: 1px;
+}
+
+/* 胶囊筛选：选中 = raised + --shadow-1 + 字重 600 */
+.library-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-1);
+  padding: 20px var(--page-pad-x) 0;
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 var(--sp-3);
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+  transition:
+    background-color var(--dur-micro) var(--ease-in),
+    color var(--dur-micro) var(--ease-in);
+}
+
+.filter-chip:hover {
+  background: var(--hover);
+  color: var(--ink);
+}
+
+.filter-chip:active {
+  background: var(--pressed);
+}
+
+.filter-chip.is-selected {
+  background: var(--raised);
+  box-shadow: var(--shadow-1);
+  color: var(--ink);
+  font-weight: var(--fw-semibold);
+}
+
+.filter-count {
+  color: var(--faint);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-regular);
+}
+
+.library-trash-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-3) 18px 0 30px;
+  font-size: var(--fs-sm);
+}
+
+/* ---------------- 列表（窗口化）：行高 56，选中行 = raised + --shadow-1 ---------------- */
+.word-list {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  outline: none;
+}
+
+.word-list:focus-visible {
+  box-shadow: inset 0 0 0 var(--focus-width) var(--focus-ring);
+}
+
+.word-list-inner {
+  position: relative;
+  margin-bottom: var(--sp-6);
+}
+
+.word-row {
+  position: absolute;
+  top: 0;
+  left: 30px;
+  right: 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: var(--list-row-h);
+  padding: 0 18px;
+  border-radius: var(--r-md);
+  cursor: default;
+  transition: background-color var(--dur-micro) var(--ease-in);
+}
+
+.word-row:hover {
+  background: var(--hover);
+}
+
+.word-row.is-selected {
+  background: var(--raised);
+  box-shadow: var(--shadow-1);
+}
+
+/* 删除一行：它淡出（留下的副本），下方的行 FLIP 上移 180；键盘移动选中项不做动画 */
+.word-list.is-reflowing .word-row {
+  transition: transform var(--dur-base) var(--ease-in);
+}
+
+.word-row.is-ghost {
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .word-list.is-reflowing .word-row {
+    transition: none;
+  }
+}
+
+.word-row-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.word-row-text {
+  display: block;
+  overflow: hidden;
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: var(--fs-lg);
+  line-height: 1.3;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.word-row-meaning {
+  overflow: hidden;
+  color: var(--ink-2);
+  font-size: 12.5px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.word-row-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: 0 0 auto;
+  color: var(--ink-2);
+  font-size: var(--fs-xs);
+}
+
+.word-row-status.is-starred {
+  color: var(--ink);
+}
+
+.word-row-due {
+  flex: 0 0 40px;
+  color: var(--faint);
+  font-size: var(--fs-sm);
+  text-align: right;
+}
+
+.word-row-due.is-overdue {
+  color: var(--accent);
+}
+
+/* ---------------- 详情：分区之间只靠留白分隔 ---------------- */
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+  padding: 30px 40px var(--sp-8);
+  animation: fade-in var(--dur-micro) var(--ease-in);
+}
+
+.detail-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0 14px;
+}
+
+.detail-head .detail-field {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+/* 单词不收缩：放不下时音标换到下一行 */
+.detail-head .detail-field:first-child {
+  flex: 0 0 auto;
+  max-width: 100%;
+}
+
+/* 单词和音标的输入框按内容定宽，长单词不被截断：镜像文字和输入框叠在同一格里 */
+.detail-autosize {
+  display: inline-grid;
+  max-width: 100%;
+}
+
+.detail-autosize > * {
+  grid-area: 1 / 1;
+  min-width: 0;
+}
+
+.detail-autosize-mirror {
+  visibility: hidden;
+  margin: 0 -6px;
+  /* 右侧多留 0.4em：输入框里的字形比普通文字略宽，避免最后一个字母被裁掉 */
+  padding: 2px calc(6px + 0.4em) 2px 6px;
+  white-space: pre;
+  line-height: var(--lh-ui);
+}
+
+.detail-autosize.detail-word .detail-autosize-mirror {
+  font-family: var(--font-serif);
+  font-size: var(--fs-detail);
+  font-weight: var(--fw-semibold);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.detail-autosize.detail-phonetic .detail-autosize-mirror {
+  min-width: 6em;
+  font-size: var(--fs-md);
+}
+
+.detail-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: calc(var(--sp-4) * -1);
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 26px 40px;
+}
+
+.detail-grid .is-wide {
+  grid-column: 1 / -1;
+}
+
+.detail-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-title,
+.detail-label {
+  margin-bottom: 6px;
+  color: var(--faint);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-regular);
+  letter-spacing: 0.04em;
+}
+
+.detail-field {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* 可编辑字段看起来就是文字：悬停出现细描边，聚焦时抬起 */
+.detail-input {
+  width: 100%;
+  margin: 0 -6px;
+  padding: 2px 6px;
+  border: 0;
+  border-radius: var(--r-xs);
+  background: transparent;
+  color: var(--ink);
+  font-size: var(--fs-body);
+  line-height: var(--lh-ui);
+  resize: none;
+  outline: none;
+  field-sizing: content;
+  transition:
+    box-shadow var(--dur-micro) var(--ease-in),
+    background-color var(--dur-micro) var(--ease-in);
+}
+
+.detail-input::placeholder {
+  color: var(--faint);
+}
+
+.detail-input:hover {
+  box-shadow: inset 0 0 0 var(--hairline) var(--border);
+}
+
+.detail-input:focus {
+  background: var(--raised);
+  box-shadow: inset 0 0 0 var(--hairline) var(--accent);
+}
+
+textarea.detail-input {
+  min-height: 1.5em;
+}
+
+.detail-input.detail-word {
+  font-family: var(--font-serif);
+  font-size: var(--fs-detail);
+  font-weight: var(--fw-semibold);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.detail-input.detail-phonetic {
+  color: var(--ink-2);
+  font-size: var(--fs-md);
+}
+
+.detail-input.is-example {
+  font-family: var(--font-serif);
+  font-size: 15.5px;
+  font-style: italic;
+}
+
+.detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.detail-actions .is-starred .lucide {
+  color: var(--marker);
+  fill: var(--marker);
+}
+
+/* 复习格：6 个 52×40 的格子，下面是节点名和日期 */
+.mini-grid {
+  display: flex;
+  gap: 10px;
+}
+
+.mini-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.mini-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 40px;
+  margin-bottom: 6px;
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 var(--hairline) var(--border);
+  font-size: var(--fs-xs);
+}
+
+.mini-box.is-due {
+  background: var(--tint-due);
+}
+
+.mini-box.is-overdue {
+  background: var(--tint-late);
+}
+
+.mini-label {
+  color: var(--ink-2);
+  font-size: 11.5px;
+}
+
+.mini-date {
+  min-height: 1.2em;
+  color: var(--faint);
+  font-size: 11.5px;
+}
+
+/* 复习历史 */
+.history {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13.5px;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  height: 34px;
+  box-shadow: inset 0 calc(var(--hairline) * -1) 0 var(--hair);
+}
+
+.history-date {
+  width: 44px;
+  color: var(--faint);
+}
+
+.history-time {
+  width: 44px;
+  color: var(--faint);
+  font-size: var(--fs-xs);
+}
+
+.history-stage {
+  width: 44px;
+  color: var(--ink-2);
+}
+
+.history-item.is-retry .history-grade {
+  color: var(--ink-2);
+}
+
+.history-retry {
+  margin-left: auto;
+  color: var(--faint);
+  font-size: var(--fs-xs);
+}
+
+.detail-muted {
+  color: var(--faint);
+  font-size: var(--fs-sm);
+}
