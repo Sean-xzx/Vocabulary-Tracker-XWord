@@ -23,6 +23,10 @@ const version = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')).ver
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 
+// Keep test layout independent of the host desktop size (Windows CI may be 1024px wide).
+const TEST_VIEWPORT = { width: 1200, height: 800, deviceScaleFactor: 1, mobile: false }
+const TEST_MOTION = [{ name: 'prefers-reduced-motion', value: 'no-preference' }]
+
 // ---------------------------------------------------------------- CDP
 
 class Cdp {
@@ -58,6 +62,14 @@ class Cdp {
     })
   }
   send(method, params = {}) {
+    // Screenshot cases reset to the controlled baseline, rather than a clamped host window.
+    if (method === 'Emulation.clearDeviceMetricsOverride') {
+      method = 'Emulation.setDeviceMetricsOverride'
+      params = TEST_VIEWPORT
+    }
+    // Reduced-motion cases still test "reduce"; clearing restores the normal-motion baseline.
+    if (method === 'Emulation.setEmulatedMedia' && params.features?.length === 0)
+      params = { ...params, features: TEST_MOTION }
     const id = ++this.id
     this.ws.send(JSON.stringify({ id, method, params }))
     return new Promise((resolve, reject) => {
@@ -1364,6 +1376,8 @@ async function launch() {
   await cdp.open()
   await cdp.send('Runtime.enable')
   await cdp.send('Log.enable')
+  await cdp.send('Emulation.setDeviceMetricsOverride', TEST_VIEWPORT)
+  await cdp.send('Emulation.setEmulatedMedia', { features: TEST_MOTION })
   await cdp.send('Page.addScriptToEvaluateOnNewDocument', { source: SPEECH_MOCK })
   await cdp.eval(SPEECH_MOCK)
   // 窗口被最小化时页面不出动画帧（pdf.js 画不完、动画不推进）：每 2 秒检查一次，被最小化就恢复（不抢焦点）

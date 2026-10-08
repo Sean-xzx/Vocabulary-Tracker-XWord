@@ -67,12 +67,40 @@ not the exact expected state of a new empty installation or the minimal demo tex
 
 未验证真实收费服务、其他电脑的实际听感、其他平台以及严格字节一致性；没有记忆效果实验。
 
+## Dependency audit / 依赖审计
+
+`npm ci` and `npm audit --json` reported **12 vulnerable dependency entries: 4 high and 8 moderate**
+on the preparation date. This count includes transitive/dependent entries, not 12 distinct exploits.
+Electron and build-tool dependency chains are involved. The lockfile is preserved; suggested Electron
+remediation includes a major-version change, which was not silently applied during documentation publication.
+Functional tests passing does not mean these advisories are resolved or that the app is security-certified.
+
+依赖审计发现 12 项受影响依赖记录，含 4 高、8 中；包含传递和关联项，不代表 12 个独立攻击漏洞。
+涉及 Electron 和构建工具依赖链。此次保留锁文件，没有擅自进行大版本升级，告警尚未修复。
+功能测试通过不代表安全问题已解决。
+
+Reproduce with `npm audit --json`; advisory data changes over time. Examples:
+[Electron sandbox advisory](https://github.com/advisories/GHSA-hq2x-r82h-9wj4),
+[extract-zip advisory](https://github.com/advisories/GHSA-jmr9-qjv8-65gv).
+
+## CI environment / CI 环境
+
+The first Windows runner passed installation, resources, type checks, unit tests and lint, but
+6 window cases failed under its smaller desktop/system animation preferences. The E2E driver
+now uses a 1200×800 baseline viewport and explicit normal-motion preference; screenshot overrides
+restore that baseline, while the reduced-motion scenario still explicitly tests reduced motion.
+No assertion is removed or relaxed. See Actions for the subsequent result.
+
+首轮 CI 的 6 项窗口失败暴露了桌面尺寸和动画偏好假设。测试驱动现固定视口与默认动画偏好；
+仍保留减少动态效果场景，未删除或放宽断言。后续结果以 Actions 为准。
+
 ## Publication integrity / 发布完整性
 
-Existing core source, tests, dictionary, icon, original design files and dependency/build configuration
+Existing application source, unit tests, dictionary, icon, original design files and dependency/build configuration
 are compared with pre-edit SHA-256 records. Private backups and original local history are not public artifacts.
 Resource checksums are in [resources.json](resources.json). Original and public history handling is documented
 in [PUBLICATION](PUBLICATION.md).
 
-发布前按修改前 SHA-256 记录核对原有核心文件，私有备份及原始本地历史不上传。
+发布前按修改前 SHA-256 记录核对原有核心文件，窗口测试驱动的环境设置单独记录；
+私有备份及原始本地历史不上传。
 资源与历史处理分别见清单和发布文档。

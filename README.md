@@ -113,6 +113,7 @@ not revalidated during publication; DeepSeek may charge your account.
 Daily backups cover the database, not books or all preferences. Existing PDF Hooks and build/runtime
 warnings are recorded in [verification](docs/VERIFICATION.md).
 Restrictive Windows Application Control can block local NSIS packaging.
+The existing dependency audit reports 12 affected entries (4 high, 8 moderate); these remain unresolved.
 
 Report reproducible bugs through [Issues](https://github.com/Sean-xzx/Vocabulary-Tracker-XWord/issues),
 without keys, private books or learning databases. Permission requests go to

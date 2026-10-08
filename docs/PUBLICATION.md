@@ -3,10 +3,12 @@
 ## Scope / 范围
 
 Publish the existing XWord 0.4.1 application as **Vocabulary-Tracker-XWord**.
-Preserve existing source, tests, resources, application identity and core data byte for byte.
-Only documentation, publication checks and CI are added or organized.
+Preserve existing application source, unit tests, resources, application identity and core data byte for byte.
+Documentation, publication checks and CI are added. The E2E driver fixes its viewport and normal-motion
+baseline so existing assertions also run on a smaller CI desktop; application behavior is unchanged.
 
-将现有 XWord 0.4.1 以 Vocabulary-Tracker-XWord 仓库名发布；保留软件名称、核心源码、测试和资源。
+将现有 XWord 0.4.1 以 Vocabulary-Tracker-XWord 仓库名发布；保留软件名称、核心源码、单元测试和资源。
+窗口测试驱动固定测试视口和动画基准，以适配较小的 CI 桌面，不改变应用行为。
 
 ## Recovery and history / 恢复与历史
 

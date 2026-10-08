@@ -110,6 +110,7 @@ npm run build
 DeepSeek 可能向你的账户收费。每日备份只包含数据库，不包含书籍及全部偏好。
 原有 PDF Hooks 及构建、运行警告见[验证记录](docs/VERIFICATION.md)。
 严格的 Windows 应用控制可能阻止本地 NSIS 打包。
+现有依赖审计报告 12 项受影响记录（4 高、8 中），尚未修复。
 
 通过 [Issues](https://github.com/Sean-xzx/Vocabulary-Tracker-XWord/issues)反馈可复现问题，
 不要附密钥、私人书籍和学习数据库。授权申请联系 [Sean-xzx](https://github.com/Sean-xzx)。
